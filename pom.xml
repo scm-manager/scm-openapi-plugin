@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <artifactId>scm-plugins</artifactId>
+    <groupId>sonia.scm.plugins</groupId>
+    <version>2.0.0-SNAPSHOT</version>
+  </parent>
+
+  <artifactId>scm-openapi-plugin</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+  <name>scm-openapi-plugin</name>
+  <packaging>smp</packaging>
+  <url>https://github.com/scm-manager/scm-openapi-plugin</url>
+  <description>OpenAPI-spec and SwaggerUI for SCM-Manager</description>
+
+  <scm>
+    <connection>scm:git:https://github.com/scm-manager/scm-openapi-plugin</connection>
+    <developerConnection>scm:git:https://github.com/scm-manager/scm-openapi-plugin</developerConnection>
+    <url>https://github.com/scm-manager/scm-openapi-plugin</url>
+  </scm>
+
+  <build>
+    <plugins>
+
+      <plugin>
+        <groupId>com.googlecode.maven-download-plugin</groupId>
+        <artifactId>download-maven-plugin</artifactId>
+        <version>1.2.1</version>
+        <executions>
+          <execution>
+            <id>swagger-ui</id>
+            <phase>smp-compile</phase>
+            <goals>
+              <goal>wget</goal>
+            </goals>
+            <configuration>
+              <url>https://github.com/swagger-api/swagger-ui/archive/v${swagger-ui.version}.tar.gz</url>
+              <unpack>true</unpack>
+              <outputDirectory>${project.build.directory}</outputDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <artifactId>maven-resources-plugin</artifactId>
+        <version>2.6</version>
+        <executions>
+          <execution>
+            <id>copy-resources</id>
+            <phase>smp-compile</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>target/${project.artifactId}-${project.version}/webapp/swagger-ui</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${project.build.directory}/swagger-ui-${swagger-ui.version}/dist</directory>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+    </plugins>
+  </build>
+
+  <properties>
+    <swagger-ui.version>3.25.0</swagger-ui.version>
+  </properties>
+
+  <repositories>
+
+    <repository>
+      <id>maven.scm-manager.org</id>
+      <name>scm-manager release repository</name>
+      <url>http://maven.scm-manager.org/nexus/content/groups/public</url>
+    </repository>
+
+    <repository>
+      <id>maven.scm-manager.org_snapshots</id>
+      <name>scm-manager snapshot repository</name>
+      <url>http://maven.scm-manager.org/nexus/content/repositories/snapshots</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+        <updatePolicy>always</updatePolicy>
+      </snapshots>
+    </repository>
+
+  </repositories>
+</project>

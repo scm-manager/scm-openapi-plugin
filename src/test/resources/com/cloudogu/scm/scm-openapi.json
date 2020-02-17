@@ -1,0 +1,2858 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "SCM-Manager REST-API",
+    "description" : "# openapi docs from code\n\ndescribe hateoas",
+    "contact" : {
+      "name" : "SCM-Manager",
+      "url" : "https://scm-manager.org",
+      "email" : "scmmanager@googlegroups.com"
+    },
+    "license" : {
+      "name" : "BSD",
+      "url" : "http://www.opensource.org/licenses/bsd-license.php"
+    },
+    "version" : "2.0.0-SNAPSHOT"
+  },
+  "servers" : [ {
+    "url" : "http://localhost:8081/scm/api",
+    "description" : "local endpoint url"
+  } ],
+  "tags" : [ {
+    "name" : "Repository",
+    "description" : "Repository related endpoints"
+  } ],
+  "paths" : {
+    "/v2/auth/access_token" : {
+      "post" : {
+        "operationId" : "authenticateViaJSONBody",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/AuthenticationRequestDto"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "*/*" : { }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "operationId" : "logout",
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/json" : { }
+            }
+          }
+        }
+      }
+    },
+    "/v2/autocomplete/users" : {
+      "get" : {
+        "operationId" : "searchUser",
+        "parameters" : [ {
+          "name" : "q",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/vnd.scmm-autocomplete+json;v=2" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/ReducedObjectModelDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/autocomplete/groups" : {
+      "get" : {
+        "operationId" : "searchGroup",
+        "parameters" : [ {
+          "name" : "q",
+          "in" : "query",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/vnd.scmm-autocomplete+json;v=2" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/ReducedObjectModelDto"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/config" : {
+      "get" : {
+        "operationId" : "get",
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/vnd.scmm-config+json;v=2" : { }
+            }
+          }
+        }
+      },
+      "put" : {
+        "operationId" : "update",
+        "requestBody" : {
+          "content" : {
+            "application/vnd.scmm-config+json;v=2" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ConfigDto"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "*/*" : { }
+            }
+          }
+        }
+      }
+    },
+    "/v2/permissions" : {
+      "get" : {
+        "operationId" : "getAll",
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/vnd.scmm-permissionCollection+json;v=2" : { }
+            }
+          }
+        }
+      }
+    },
+    "/v2/groups" : {
+      "get" : {
+        "operationId" : "getAll_1",
+        "parameters" : [ {
+          "name" : "page",
+          "in" : "query",
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32",
+            "default" : 0
+          }
+        }, {
+          "name" : "pageSize",
+          "in" : "query",
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32",
+            "default" : 10
+          }
+        }, {
+          "name" : "sortBy",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "desc",
+          "in" : "query",
+          "schema" : {
+            "type" : "boolean",
+            "default" : false
+          }
+        }, {
+          "name" : "q",
+          "in" : "query",
+          "schema" : {
+            "type" : "string",
+            "default" : ""
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/vnd.scmm-groupCollection+json;v=2" : { }
+            }
+          }
+        }
+      },
+      "post" : {
+        "operationId" : "create",
+        "requestBody" : {
+          "content" : {
+            "application/vnd.scmm-group+json;v=2" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/GroupDto"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "*/*" : { }
+            }
+          }
+        }
+      }
+    },
+    "/v2/groups/{id}" : {
+      "get" : {
+        "operationId" : "get_1",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/vnd.scmm-group+json;v=2" : { }
+            }
+          }
+        }
+      },
+      "put" : {
+        "operationId" : "update_1",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/vnd.scmm-group+json;v=2" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/GroupDto"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "*/*" : { }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "operationId" : "delete",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "*/*" : { }
+            }
+          }
+        }
+      }
+    },
+    "/v2/groups/{id}/permissions" : {
+      "get" : {
+        "operationId" : "getPermissions",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/vnd.scmm-permissionCollection+json;v=2" : { }
+            }
+          }
+        }
+      },
+      "put" : {
+        "operationId" : "overwritePermissions",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/vnd.scmm-permissionCollection+json;v=2" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PermissionListDto"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "*/*" : { }
+            }
+          }
+        }
+      }
+    },
+    "/v2" : {
+      "get" : {
+        "operationId" : "getIndex",
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/vnd.scmm-index+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/IndexDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/me" : {
+      "get" : {
+        "operationId" : "get_2",
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/vnd.scmm-me+json;v=2" : { }
+            }
+          }
+        }
+      }
+    },
+    "/v2/me/password" : {
+      "put" : {
+        "operationId" : "changePassword",
+        "requestBody" : {
+          "content" : {
+            "application/vnd.scmm-passwordChange+json;v=2" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PasswordChangeDto"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "*/*" : { }
+            }
+          }
+        }
+      }
+    },
+    "/v2/namespaceStrategies" : {
+      "get" : {
+        "operationId" : "get_3",
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/vnd.scmm-namespaceStrategies+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/NamespaceStrategiesDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/plugins/pending/execute" : {
+      "post" : {
+        "operationId" : "executePending",
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "*/*" : { }
+            }
+          }
+        }
+      }
+    },
+    "/v2/plugins/pending/cancel" : {
+      "post" : {
+        "operationId" : "cancelPending",
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "*/*" : { }
+            }
+          }
+        }
+      }
+    },
+    "/v2/plugins/pending" : {
+      "get" : {
+        "operationId" : "getPending",
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/vnd.scmm-pluginCollection+json;v=2" : { }
+            }
+          }
+        }
+      }
+    },
+    "/v2/plugins/installed" : {
+      "get" : {
+        "operationId" : "getInstalledPlugins",
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/vnd.scmm-pluginCollection+json;v=2" : { }
+            }
+          }
+        }
+      }
+    },
+    "/v2/plugins/installed/{name}" : {
+      "get" : {
+        "operationId" : "getInstalledPlugin",
+        "parameters" : [ {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/vnd.scmm-plugin+json;v=2" : { }
+            }
+          }
+        }
+      }
+    },
+    "/v2/plugins/installed/{name}/uninstall" : {
+      "post" : {
+        "operationId" : "uninstallPlugin",
+        "parameters" : [ {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "restart",
+          "in" : "query",
+          "schema" : {
+            "type" : "boolean"
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "*/*" : { }
+            }
+          }
+        }
+      }
+    },
+    "/v2/plugins/installed/update" : {
+      "post" : {
+        "operationId" : "updateAll",
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "*/*" : { }
+            }
+          }
+        }
+      }
+    },
+    "/v2/plugins/available/{name}/install" : {
+      "post" : {
+        "operationId" : "installPlugin",
+        "parameters" : [ {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "restart",
+          "in" : "query",
+          "schema" : {
+            "type" : "boolean"
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "*/*" : { }
+            }
+          }
+        }
+      }
+    },
+    "/v2/plugins/available/{name}" : {
+      "get" : {
+        "operationId" : "getAvailablePlugin",
+        "parameters" : [ {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/vnd.scmm-plugin+json;v=2" : { }
+            }
+          }
+        }
+      }
+    },
+    "/v2/plugins/available" : {
+      "get" : {
+        "operationId" : "getAvailablePlugins",
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/vnd.scmm-pluginCollection+json;v=2" : { }
+            }
+          }
+        }
+      }
+    },
+    "/v2/repositoryRoles" : {
+      "get" : {
+        "operationId" : "getAll_2",
+        "parameters" : [ {
+          "name" : "page",
+          "in" : "query",
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32",
+            "default" : 0
+          }
+        }, {
+          "name" : "pageSize",
+          "in" : "query",
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32",
+            "default" : 10
+          }
+        }, {
+          "name" : "sortBy",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "desc",
+          "in" : "query",
+          "schema" : {
+            "type" : "boolean",
+            "default" : false
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/vnd.scmm-repositoryRoleCollection+json;v=2" : { }
+            }
+          }
+        }
+      },
+      "post" : {
+        "operationId" : "create_1",
+        "requestBody" : {
+          "content" : {
+            "application/vnd.scmm-repositoryRole+json;v=2" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/RepositoryRoleDto"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "*/*" : { }
+            }
+          }
+        }
+      }
+    },
+    "/v2/repositoryRoles/{name}" : {
+      "get" : {
+        "operationId" : "get_4",
+        "parameters" : [ {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/vnd.scmm-repositoryRole+json;v=2" : { }
+            }
+          }
+        }
+      },
+      "put" : {
+        "operationId" : "update_2",
+        "parameters" : [ {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/vnd.scmm-repositoryRole+json;v=2" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/RepositoryRoleDto"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "*/*" : { }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "operationId" : "delete_1",
+        "parameters" : [ {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "*/*" : { }
+            }
+          }
+        }
+      }
+    },
+    "/v2/repositories/{namespace}/{name}" : {
+      "get" : {
+        "tags" : [ "Repository" ],
+        "summary" : "Returns a single repository",
+        "description" : "Returns the repository for the given namespace and name.",
+        "operationId" : "get_5",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "content" : {
+              "application/vnd.scmm-repository+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RepositoryDto"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized, the current user has no privileges to read the repository"
+          },
+          "404" : {
+            "description" : "not found, no repository with the specified name available in the namespace",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put" : {
+        "operationId" : "update_3",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/vnd.scmm-repository+json;v=2" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/RepositoryDto"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "*/*" : { }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "operationId" : "delete_2",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "*/*" : { }
+            }
+          }
+        }
+      }
+    },
+    "/v2/repositories/{namespace}/{name}/permissions/{permission-name}" : {
+      "get" : {
+        "operationId" : "get_6",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "permission-name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/vnd.scmm-repositoryPermission+json;v=2" : { }
+            }
+          }
+        }
+      },
+      "put" : {
+        "operationId" : "update_4",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "permission-name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/vnd.scmm-repositoryPermission+json;v=2" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/RepositoryPermissionDto"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "*/*" : { }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "operationId" : "delete_3",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "permission-name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "*/*" : { }
+            }
+          }
+        }
+      }
+    },
+    "/v2/repositories/{namespace}/{name}/permissions" : {
+      "get" : {
+        "operationId" : "getAll_3",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/vnd.scmm-repositoryPermission+json;v=2" : { }
+            }
+          }
+        }
+      },
+      "post" : {
+        "operationId" : "create_2",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/vnd.scmm-repositoryPermission+json;v=2" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/RepositoryPermissionDto"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "*/*" : { }
+            }
+          }
+        }
+      }
+    },
+    "/v2/repositories/{namespace}/{name}/content/{revision}/{path}" : {
+      "get" : {
+        "operationId" : "get_7",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "revision",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "path",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "*/*" : { }
+            }
+          }
+        }
+      },
+      "head" : {
+        "operationId" : "metadata",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "revision",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "path",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "*/*" : { }
+            }
+          }
+        }
+      }
+    },
+    "/v2/repositories/{namespace}/{name}/sources/{revision}/{path}" : {
+      "get" : {
+        "operationId" : "get_8",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "revision",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "path",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/vnd.scmm-source+json;v=2" : { }
+            }
+          }
+        }
+      }
+    },
+    "/v2/repositories/{namespace}/{name}/sources/{revision}" : {
+      "get" : {
+        "operationId" : "getAll_4",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "revision",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/vnd.scmm-source+json;v=2" : { }
+            }
+          }
+        }
+      }
+    },
+    "/v2/repositories/{namespace}/{name}/sources" : {
+      "get" : {
+        "operationId" : "getAllWithoutRevision",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/vnd.scmm-source+json;v=2" : { }
+            }
+          }
+        }
+      }
+    },
+    "/v2/repositories/{namespace}/{name}/diff/{revision}/parsed" : {
+      "get" : {
+        "operationId" : "getParsed",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "revision",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/vnd.scmm-diffParsed+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/DiffResultDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/repositories/{namespace}/{name}/diff/{revision}" : {
+      "get" : {
+        "operationId" : "get_9",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "revision",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "format",
+          "in" : "query",
+          "schema" : {
+            "type" : "string",
+            "default" : "NATIVE"
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "text/vnd.scmm-diff+plain;v=2" : { }
+            }
+          }
+        }
+      }
+    },
+    "/v2/repositories/{namespace}/{name}/tags/{tagName}" : {
+      "get" : {
+        "operationId" : "get_10",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "tagName",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/vnd.scmm-tag+json;v=2" : { }
+            }
+          }
+        }
+      }
+    },
+    "/v2/repositories/{namespace}/{name}/tags" : {
+      "get" : {
+        "operationId" : "getAll_5",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/vnd.scmm-tagCollection+json;v=2" : { }
+            }
+          }
+        }
+      }
+    },
+    "/v2/repositories/{namespace}/{name}/history/{revision}/{path}" : {
+      "get" : {
+        "operationId" : "getAll_6",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "revision",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "path",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32",
+            "default" : 0
+          }
+        }, {
+          "name" : "pageSize",
+          "in" : "query",
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32",
+            "default" : 10
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/vnd.scmm-changesetCollection+json;v=2" : { }
+            }
+          }
+        }
+      }
+    },
+    "/v2/repositories/{namespace}/{name}/incoming/{source}/{target}/changesets" : {
+      "get" : {
+        "operationId" : "incomingChangesets",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "source",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "target",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32",
+            "default" : 0
+          }
+        }, {
+          "name" : "pageSize",
+          "in" : "query",
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32",
+            "default" : 10
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/vnd.scmm-changesetCollection+json;v=2" : { }
+            }
+          }
+        }
+      }
+    },
+    "/v2/repositories/{namespace}/{name}/incoming/{source}/{target}/diff/parsed" : {
+      "get" : {
+        "operationId" : "incomingDiffParsed",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "source",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "target",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/vnd.scmm-diffParsed+json;v=2" : { }
+            }
+          }
+        }
+      }
+    },
+    "/v2/repositories/{namespace}/{name}/incoming/{source}/{target}/diff" : {
+      "get" : {
+        "operationId" : "incomingDiff",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "source",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "target",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "format",
+          "in" : "query",
+          "schema" : {
+            "type" : "string",
+            "default" : "NATIVE"
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "text/vnd.scmm-diff+plain;v=2" : { }
+            }
+          }
+        }
+      }
+    },
+    "/v2/repositories/{namespace}/{name}/modifications/{revision}" : {
+      "get" : {
+        "operationId" : "get_11",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "revision",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/vnd.scmm-modifications+json;v=2" : { }
+            }
+          }
+        }
+      }
+    },
+    "/v2/repositories/{namespace}/{name}/branches/{branch}" : {
+      "get" : {
+        "operationId" : "get_12",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "branch",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/vnd.scmm-branch+json;v=2" : { }
+            }
+          }
+        }
+      }
+    },
+    "/v2/repositories/{namespace}/{name}/branches" : {
+      "get" : {
+        "operationId" : "getAll_7",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/vnd.scmm-branchCollection+json;v=2" : { }
+            }
+          }
+        }
+      },
+      "post" : {
+        "operationId" : "create_3",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/vnd.scmm-branchRequest+json;v=2" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/BranchRequestDto"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "*/*" : { }
+            }
+          }
+        }
+      }
+    },
+    "/v2/repositories/{namespace}/{name}/branches/{branch}/changesets" : {
+      "get" : {
+        "operationId" : "history",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "branch",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32",
+            "default" : 0
+          }
+        }, {
+          "name" : "pageSize",
+          "in" : "query",
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32",
+            "default" : 10
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/vnd.scmm-changesetCollection+json;v=2" : { }
+            }
+          }
+        }
+      }
+    },
+    "/v2/repositories/{namespace}/{name}/changesets/{id}" : {
+      "get" : {
+        "operationId" : "get_13",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/vnd.scmm-changeset+json;v=2" : { }
+            }
+          }
+        }
+      }
+    },
+    "/v2/repositories/{namespace}/{name}/changesets" : {
+      "get" : {
+        "operationId" : "getAll_8",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32",
+            "default" : 0
+          }
+        }, {
+          "name" : "pageSize",
+          "in" : "query",
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32",
+            "default" : 10
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/vnd.scmm-changesetCollection+json;v=2" : { }
+            }
+          }
+        }
+      }
+    },
+    "/v2/repositories" : {
+      "get" : {
+        "operationId" : "getAll_9",
+        "parameters" : [ {
+          "name" : "page",
+          "in" : "query",
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32",
+            "default" : 0
+          }
+        }, {
+          "name" : "pageSize",
+          "in" : "query",
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32",
+            "default" : 10
+          }
+        }, {
+          "name" : "sortBy",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "desc",
+          "in" : "query",
+          "schema" : {
+            "type" : "boolean",
+            "default" : false
+          }
+        }, {
+          "name" : "q",
+          "in" : "query",
+          "schema" : {
+            "type" : "string",
+            "default" : ""
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/vnd.scmm-repositoryCollection+json;v=2" : { }
+            }
+          }
+        }
+      },
+      "post" : {
+        "operationId" : "create_4",
+        "parameters" : [ {
+          "name" : "initialize",
+          "in" : "query",
+          "schema" : {
+            "type" : "boolean"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/vnd.scmm-repository+json;v=2" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/RepositoryDto"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "*/*" : { }
+            }
+          }
+        }
+      }
+    },
+    "/v2/repositoryTypes" : {
+      "get" : {
+        "operationId" : "getAll_10",
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/vnd.scmm-repositoryTypeCollection+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/HalRepresentation"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/repositoryTypes/{name}" : {
+      "get" : {
+        "operationId" : "get_14",
+        "parameters" : [ {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/vnd.scmm-repositoryType+json;v=2" : { }
+            }
+          }
+        }
+      }
+    },
+    "/v2/repositoryVerbs" : {
+      "get" : {
+        "operationId" : "getAll_11",
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/vnd.scmm-repositoryVerbCollection+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/RepositoryVerbsDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/ui/plugins" : {
+      "get" : {
+        "operationId" : "getInstalledPlugins_1",
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/vnd.scmm-uiPluginCollection+json;v=2" : { }
+            }
+          }
+        }
+      }
+    },
+    "/v2/ui/plugins/{id}" : {
+      "get" : {
+        "operationId" : "getInstalledPlugin_1",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/vnd.scmm-uiPlugin+json;v=2" : { }
+            }
+          }
+        }
+      }
+    },
+    "/v2/users" : {
+      "get" : {
+        "operationId" : "getAll_12",
+        "parameters" : [ {
+          "name" : "page",
+          "in" : "query",
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32",
+            "default" : 0
+          }
+        }, {
+          "name" : "pageSize",
+          "in" : "query",
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32",
+            "default" : 10
+          }
+        }, {
+          "name" : "sortBy",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "desc",
+          "in" : "query",
+          "schema" : {
+            "type" : "boolean",
+            "default" : false
+          }
+        }, {
+          "name" : "q",
+          "in" : "query",
+          "schema" : {
+            "type" : "string",
+            "default" : ""
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/vnd.scmm-userCollection+json;v=2" : { }
+            }
+          }
+        }
+      },
+      "post" : {
+        "operationId" : "create_5",
+        "requestBody" : {
+          "content" : {
+            "application/vnd.scmm-user+json;v=2" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/UserDto"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "*/*" : { }
+            }
+          }
+        }
+      }
+    },
+    "/v2/users/{id}" : {
+      "get" : {
+        "operationId" : "get_15",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/vnd.scmm-user+json;v=2" : { }
+            }
+          }
+        }
+      },
+      "put" : {
+        "operationId" : "update_5",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/vnd.scmm-user+json;v=2" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/UserDto"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "*/*" : { }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "operationId" : "delete_4",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "*/*" : { }
+            }
+          }
+        }
+      }
+    },
+    "/v2/users/{id}/permissions" : {
+      "get" : {
+        "operationId" : "getPermissions_1",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/vnd.scmm-permissionCollection+json;v=2" : { }
+            }
+          }
+        }
+      },
+      "put" : {
+        "operationId" : "overwritePermissions_1",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/vnd.scmm-permissionCollection+json;v=2" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PermissionListDto"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "*/*" : { }
+            }
+          }
+        }
+      }
+    },
+    "/v2/users/{id}/password" : {
+      "put" : {
+        "operationId" : "overwritePassword",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/vnd.scmm-passwordOverwrite+json;v=2" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PasswordOverwriteDto"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "*/*" : { }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "AuthenticationRequestDto" : {
+        "type" : "object",
+        "properties" : {
+          "username" : {
+            "type" : "string"
+          },
+          "password" : {
+            "type" : "string"
+          },
+          "cookie" : {
+            "type" : "boolean"
+          },
+          "scope" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "valid" : {
+            "type" : "boolean"
+          },
+          "grant_type" : {
+            "type" : "string"
+          }
+        }
+      },
+      "Embedded" : {
+        "type" : "object",
+        "properties" : {
+          "empty" : {
+            "type" : "boolean"
+          }
+        }
+      },
+      "Links" : {
+        "type" : "object",
+        "properties" : {
+          "empty" : {
+            "type" : "boolean"
+          }
+        }
+      },
+      "ReducedObjectModelDto" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "displayName" : {
+            "type" : "string"
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "_embedded" : {
+            "$ref" : "#/components/schemas/Embedded"
+          }
+        }
+      },
+      "ConfigDto" : {
+        "type" : "object",
+        "properties" : {
+          "proxyPassword" : {
+            "type" : "string"
+          },
+          "proxyPort" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "proxyServer" : {
+            "type" : "string"
+          },
+          "proxyUser" : {
+            "type" : "string"
+          },
+          "enableProxy" : {
+            "type" : "boolean"
+          },
+          "realmDescription" : {
+            "type" : "string"
+          },
+          "disableGroupingGrid" : {
+            "type" : "boolean"
+          },
+          "dateFormat" : {
+            "type" : "string"
+          },
+          "anonymousAccessEnabled" : {
+            "type" : "boolean"
+          },
+          "baseUrl" : {
+            "type" : "string"
+          },
+          "forceBaseUrl" : {
+            "type" : "boolean"
+          },
+          "loginAttemptLimit" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "proxyExcludes" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "skipFailedAuthenticators" : {
+            "type" : "boolean"
+          },
+          "pluginUrl" : {
+            "type" : "string"
+          },
+          "loginAttemptLimitTimeout" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "enabledXsrfProtection" : {
+            "type" : "boolean"
+          },
+          "namespaceStrategy" : {
+            "type" : "string"
+          },
+          "loginInfoUrl" : {
+            "type" : "string"
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "_embedded" : {
+            "$ref" : "#/components/schemas/Embedded"
+          }
+        }
+      },
+      "GroupDto" : {
+        "type" : "object",
+        "properties" : {
+          "creationDate" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "description" : {
+            "type" : "string"
+          },
+          "lastModified" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "name" : {
+            "pattern" : "^[A-Za-z0-9\\.\\-_][A-Za-z0-9\\.\\-_@]*$",
+            "type" : "string"
+          },
+          "type" : {
+            "type" : "string"
+          },
+          "properties" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "type" : "string"
+            }
+          },
+          "members" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "external" : {
+            "type" : "boolean"
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "_embedded" : {
+            "$ref" : "#/components/schemas/Embedded"
+          }
+        }
+      },
+      "PermissionListDto" : {
+        "required" : [ "permissions" ],
+        "type" : "object",
+        "properties" : {
+          "permissions" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "_embedded" : {
+            "$ref" : "#/components/schemas/Embedded"
+          }
+        }
+      },
+      "IndexDto" : {
+        "type" : "object",
+        "properties" : {
+          "version" : {
+            "type" : "string"
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "_embedded" : {
+            "$ref" : "#/components/schemas/Embedded"
+          }
+        }
+      },
+      "PasswordChangeDto" : {
+        "required" : [ "newPassword", "oldPassword" ],
+        "type" : "object",
+        "properties" : {
+          "oldPassword" : {
+            "type" : "string"
+          },
+          "newPassword" : {
+            "type" : "string"
+          }
+        }
+      },
+      "NamespaceStrategiesDto" : {
+        "type" : "object",
+        "properties" : {
+          "current" : {
+            "type" : "string"
+          },
+          "available" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "_embedded" : {
+            "$ref" : "#/components/schemas/Embedded"
+          }
+        }
+      },
+      "RepositoryRoleDto" : {
+        "required" : [ "name", "verbs" ],
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string"
+          },
+          "verbs" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "type" : {
+            "type" : "string"
+          },
+          "creationDate" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "lastModified" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "_embedded" : {
+            "$ref" : "#/components/schemas/Embedded"
+          }
+        }
+      },
+      "HealthCheckFailureDto" : {
+        "type" : "object",
+        "properties" : {
+          "description" : {
+            "type" : "string"
+          },
+          "summary" : {
+            "type" : "string"
+          },
+          "url" : {
+            "type" : "string"
+          }
+        }
+      },
+      "RepositoryDto" : {
+        "required" : [ "type" ],
+        "type" : "object",
+        "properties" : {
+          "contact" : {
+            "type" : "string"
+          },
+          "creationDate" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "description" : {
+            "type" : "string"
+          },
+          "healthCheckFailures" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/HealthCheckFailureDto"
+            }
+          },
+          "lastModified" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "namespace" : {
+            "type" : "string"
+          },
+          "name" : {
+            "pattern" : "(?!^\\.\\.$)(?!^\\.$)(?!.*[\\\\\\[\\]])^[A-Za-z0-9\\.][A-Za-z0-9\\.\\-_]*$",
+            "type" : "string"
+          },
+          "archived" : {
+            "type" : "boolean"
+          },
+          "type" : {
+            "type" : "string"
+          },
+          "properties" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "type" : "string"
+            }
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "_embedded" : {
+            "$ref" : "#/components/schemas/Embedded"
+          }
+        }
+      },
+      "ConstraintViolationDto" : {
+        "type" : "object",
+        "properties" : {
+          "path" : {
+            "type" : "string"
+          },
+          "message" : {
+            "type" : "string"
+          }
+        },
+        "xml" : {
+          "name" : "violation"
+        }
+      },
+      "ContextEntry" : {
+        "type" : "object",
+        "properties" : {
+          "type" : {
+            "type" : "string"
+          },
+          "id" : {
+            "type" : "string"
+          }
+        }
+      },
+      "ErrorDto" : {
+        "type" : "object",
+        "properties" : {
+          "transactionId" : {
+            "type" : "string"
+          },
+          "errorCode" : {
+            "type" : "string"
+          },
+          "context" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ContextEntry"
+            }
+          },
+          "message" : {
+            "type" : "string"
+          },
+          "violations" : {
+            "type" : "array",
+            "xml" : {
+              "wrapped" : true
+            },
+            "items" : {
+              "$ref" : "#/components/schemas/ConstraintViolationDto"
+            }
+          },
+          "url" : {
+            "type" : "string"
+          }
+        }
+      },
+      "RepositoryPermissionDto" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "pattern" : "^[A-Za-z0-9\\.\\-_][A-Za-z0-9\\.\\-_@]*$",
+            "type" : "string"
+          },
+          "verbs" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "role" : {
+            "type" : "string"
+          },
+          "groupPermission" : {
+            "type" : "boolean"
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "_embedded" : {
+            "$ref" : "#/components/schemas/Embedded"
+          }
+        }
+      },
+      "ChangeDto" : {
+        "type" : "object",
+        "properties" : {
+          "content" : {
+            "type" : "string"
+          },
+          "type" : {
+            "type" : "string"
+          },
+          "lineNumber" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "oldLineNumber" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "newLineNumber" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "isNormal" : {
+            "type" : "boolean"
+          },
+          "isInsert" : {
+            "type" : "boolean"
+          },
+          "isDelete" : {
+            "type" : "boolean"
+          }
+        }
+      },
+      "DiffResultDto" : {
+        "type" : "object",
+        "properties" : {
+          "files" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/FileDto"
+            }
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "_embedded" : {
+            "$ref" : "#/components/schemas/Embedded"
+          }
+        }
+      },
+      "FileDto" : {
+        "type" : "object",
+        "properties" : {
+          "oldPath" : {
+            "type" : "string"
+          },
+          "newPath" : {
+            "type" : "string"
+          },
+          "oldEndingNewLine" : {
+            "type" : "boolean"
+          },
+          "newEndingNewLine" : {
+            "type" : "boolean"
+          },
+          "oldRevision" : {
+            "type" : "string"
+          },
+          "newRevision" : {
+            "type" : "string"
+          },
+          "newMode" : {
+            "type" : "string"
+          },
+          "oldMode" : {
+            "type" : "string"
+          },
+          "type" : {
+            "type" : "string"
+          },
+          "language" : {
+            "type" : "string"
+          },
+          "hunks" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/HunkDto"
+            }
+          }
+        }
+      },
+      "HunkDto" : {
+        "type" : "object",
+        "properties" : {
+          "content" : {
+            "type" : "string"
+          },
+          "oldStart" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "newStart" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "oldLines" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "newLines" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "changes" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ChangeDto"
+            }
+          }
+        }
+      },
+      "BranchRequestDto" : {
+        "required" : [ "name" ],
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "pattern" : "[\\w-,;\\]{}@&+=$#`|<>]([\\w-,;\\]{}@&+=$#`|<>/.]*[\\w-,;\\]{}@&+=$#`|<>])?",
+            "type" : "string"
+          },
+          "parent" : {
+            "type" : "string"
+          }
+        }
+      },
+      "HalRepresentation" : {
+        "type" : "object",
+        "properties" : {
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "_embedded" : {
+            "$ref" : "#/components/schemas/Embedded"
+          }
+        }
+      },
+      "RepositoryVerbsDto" : {
+        "type" : "object",
+        "properties" : {
+          "verbs" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "_embedded" : {
+            "$ref" : "#/components/schemas/Embedded"
+          }
+        }
+      },
+      "UserDto" : {
+        "required" : [ "displayName", "mail" ],
+        "type" : "object",
+        "properties" : {
+          "active" : {
+            "type" : "boolean"
+          },
+          "creationDate" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "displayName" : {
+            "type" : "string"
+          },
+          "lastModified" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "mail" : {
+            "type" : "string"
+          },
+          "name" : {
+            "pattern" : "^[A-Za-z0-9\\.\\-_][A-Za-z0-9\\.\\-_@]*$",
+            "type" : "string"
+          },
+          "password" : {
+            "type" : "string"
+          },
+          "type" : {
+            "type" : "string"
+          },
+          "properties" : {
+            "type" : "object",
+            "additionalProperties" : {
+              "type" : "string"
+            }
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "_embedded" : {
+            "$ref" : "#/components/schemas/Embedded"
+          }
+        }
+      },
+      "PasswordOverwriteDto" : {
+        "required" : [ "newPassword" ],
+        "type" : "object",
+        "properties" : {
+          "newPassword" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "securitySchemes" : {
+      "Basic Authentication" : {
+        "type" : "http",
+        "description" : "HTTP Basic authentication with username and password",
+        "scheme" : "Basic"
+      },
+      "Bearer Token Authentication" : {
+        "type" : "apiKey",
+        "name" : "Authorization",
+        "in" : "header",
+        "scheme" : "Bearer",
+        "bearerFormat" : "JWT"
+      }
+    }
+  }
+}

@@ -1,0 +1,322 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "Hg OpenAPI Spec",
+    "license" : {
+      "name" : "BSD",
+      "url" : "http://www.opensource.org/licenses/bsd-license.php"
+    },
+    "version" : "2.0.0-SNAPSHOT"
+  },
+  "tags" : [ {
+    "name" : "Hg",
+    "description" : "Configuration for the hg repository type"
+  } ],
+  "paths" : {
+    "/v2/config/hg" : {
+      "get" : {
+        "tags" : [ "Hg" ],
+        "summary" : "Hg configuration",
+        "description" : "Returns the global hg configuration.",
+        "operationId" : "get",
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "content" : {
+              "application/vnd.scmm-hgConfig+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/HgConfigDto"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized, the current user does not have the \"configuration:read:hg\" privilege"
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Hg" ],
+        "summary" : "Modify hg configuration",
+        "description" : "Modifies the global hg configuration.",
+        "operationId" : "update",
+        "requestBody" : {
+          "content" : {
+            "application/vnd.scmm-hgConfig+json;v=2" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/HgConfigDto"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "204" : {
+            "description" : "update success"
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized, the current user does not have the \"configuration:write:hg\" privilege"
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/config/hg/{namespace}/{name}" : {
+      "get" : {
+        "tags" : [ "Hg" ],
+        "summary" : "Hg repository configuration",
+        "description" : "Returns the repository related hg configuration.",
+        "operationId" : "getRepositoryConfig",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "content" : {
+              "application/vnd.scmm-hgConfig+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/HgRepositoryConfigDto"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized, the current user has no privileges to read the repository config"
+          },
+          "404" : {
+            "description" : "not found, no repository with the specified namespace and name available",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Hg" ],
+        "summary" : "Modifies hg repository configuration",
+        "description" : "Modifies the repository related hg configuration.",
+        "operationId" : "setRepositoryConfig",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/vnd.scmm-hgConfig+json;v=2" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/HgRepositoryConfigDto"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "204" : {
+            "description" : "update success"
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized, the current user does not have the privilege to change this repositories config"
+          },
+          "404" : {
+            "description" : "not found, no repository with the specified namespace and name available/name available",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "Embedded" : {
+        "type" : "object",
+        "properties" : {
+          "empty" : {
+            "type" : "boolean"
+          }
+        }
+      },
+      "HgConfigDto" : {
+        "type" : "object",
+        "properties" : {
+          "disabled" : {
+            "type" : "boolean"
+          },
+          "gcExpression" : {
+            "type" : "string"
+          },
+          "nonFastForwardDisallowed" : {
+            "type" : "boolean"
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "_embedded" : {
+            "$ref" : "#/components/schemas/Embedded"
+          }
+        }
+      },
+      "Links" : {
+        "type" : "object",
+        "properties" : {
+          "empty" : {
+            "type" : "boolean"
+          }
+        }
+      },
+      "ConstraintViolationDto" : {
+        "type" : "object",
+        "properties" : {
+          "path" : {
+            "type" : "string"
+          },
+          "message" : {
+            "type" : "string"
+          }
+        },
+        "xml" : {
+          "name" : "violation"
+        }
+      },
+      "ContextEntry" : {
+        "type" : "object",
+        "properties" : {
+          "type" : {
+            "type" : "string"
+          },
+          "id" : {
+            "type" : "string"
+          }
+        }
+      },
+      "ErrorDto" : {
+        "type" : "object",
+        "properties" : {
+          "transactionId" : {
+            "type" : "string"
+          },
+          "errorCode" : {
+            "type" : "string"
+          },
+          "context" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ContextEntry"
+            }
+          },
+          "message" : {
+            "type" : "string"
+          },
+          "violations" : {
+            "type" : "array",
+            "xml" : {
+              "wrapped" : true
+            },
+            "items" : {
+              "$ref" : "#/components/schemas/ConstraintViolationDto"
+            }
+          },
+          "url" : {
+            "type" : "string"
+          }
+        }
+      },
+      "HgRepositoryConfigDto" : {
+        "type" : "object",
+        "properties" : {
+          "defaultBranch" : {
+            "type" : "string"
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "_embedded" : {
+            "$ref" : "#/components/schemas/Embedded"
+          }
+        }
+      }
+    }
+  }
+}

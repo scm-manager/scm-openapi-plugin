@@ -1,0 +1,11 @@
+{
+  "openapi" : "3.0.1",
+  "info" : {
+    "title" : "SCM-Manager Plugin REST-API",
+    "license" : {
+      "name" : "BSD",
+      "url" : "http://www.opensource.org/licenses/bsd-license.php"
+    },
+    "version" : "2.0.0-SNAPSHOT"
+  }
+}
