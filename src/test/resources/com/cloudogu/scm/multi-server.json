@@ -1,0 +1,16 @@
+{
+  "servers": [
+    {
+      "url": "http://localhost:8081/scm/api",
+      "description": "local endpoint url"
+    },
+    {
+      "url": "http://localhost:8082/scm/api",
+      "description": "local endpoint 2 url"
+    },
+    {
+      "url": "http://localhost:8083/scm/api",
+      "description": "local endpoint 3 url"
+    }
+  ]
+}

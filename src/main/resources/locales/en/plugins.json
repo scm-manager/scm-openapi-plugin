@@ -1,5 +1,5 @@
 {
   "scm-openapi-plugin": {
-
+    "restDocumentation": "REST API"
   }
 }
