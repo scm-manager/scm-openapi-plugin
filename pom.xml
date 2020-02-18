@@ -23,58 +23,6 @@
     <url>https://github.com/scm-manager/scm-openapi-plugin</url>
   </scm>
 
-  <build>
-    <plugins>
-
-      <plugin>
-        <groupId>com.googlecode.maven-download-plugin</groupId>
-        <artifactId>download-maven-plugin</artifactId>
-        <version>1.2.1</version>
-        <executions>
-          <execution>
-            <id>swagger-ui</id>
-            <phase>smp-compile</phase>
-            <goals>
-              <goal>wget</goal>
-            </goals>
-            <configuration>
-              <url>https://github.com/swagger-api/swagger-ui/archive/v${swagger-ui.version}.tar.gz</url>
-              <unpack>true</unpack>
-              <outputDirectory>${project.build.directory}</outputDirectory>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
-      <plugin>
-        <artifactId>maven-resources-plugin</artifactId>
-        <version>2.6</version>
-        <executions>
-          <execution>
-            <id>copy-resources</id>
-            <phase>smp-compile</phase>
-            <goals>
-              <goal>copy-resources</goal>
-            </goals>
-            <configuration>
-              <outputDirectory>target/${project.artifactId}-${project.version}/webapp/swagger-ui</outputDirectory>
-              <resources>
-                <resource>
-                  <directory>${project.build.directory}/swagger-ui-${swagger-ui.version}/dist</directory>
-                </resource>
-              </resources>
-            </configuration>
-          </execution>
-        </executions>
-      </plugin>
-
-    </plugins>
-  </build>
-
-  <properties>
-    <swagger-ui.version>3.25.0</swagger-ui.version>
-  </properties>
-
   <repositories>
 
     <repository>
