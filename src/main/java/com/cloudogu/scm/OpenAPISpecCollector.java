@@ -18,6 +18,7 @@ import java.util.List;
 public class OpenAPISpecCollector {
 
   private final ClassLoader uberClassLoader;
+  private final ObjectMapper mapper = new ObjectMapper();
 
   @Inject
   public OpenAPISpecCollector(PluginLoader pluginLoader) {
@@ -29,10 +30,10 @@ public class OpenAPISpecCollector {
     if (!resources.hasMoreElements()) {
       throw new NotFoundException("OpenAPI-Spec", "all");
     }
-    ObjectMapper mapper = new ObjectMapper();
-    JsonNode mainNode = null;
-    List<JsonNode> updateNodes = new ArrayList<>();
 
+    JsonNode mainNode = null;
+
+    List<JsonNode> updateNodes = new ArrayList<>();
     while (resources.hasMoreElements()) {
       JsonNode jsonNode = mapper.readTree(resources.nextElement());
       if (isMainNode(jsonNode)) {
@@ -95,9 +96,8 @@ public class OpenAPISpecCollector {
   }
 
   private void mergeArray(ArrayNode mainNode, JsonNode updateNode) {
-    ArrayNode mainAsArray = mainNode;
     for (JsonNode child : updateNode) {
-      mainAsArray.add(child);
+      mainNode.add(child);
     }
   }
 
