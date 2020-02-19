@@ -1,5 +1,9 @@
 {
   "scm-openapi-plugin": {
-    "restDocumentation": "REST API"
+    "restDocumentation": "REST API",
+    "error": {
+      "title": "OpenAPI",
+      "subtitle": "OpenAPI specification could not be loaded."
+    }
   }
 }
