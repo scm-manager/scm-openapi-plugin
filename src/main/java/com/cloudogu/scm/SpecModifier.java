@@ -17,7 +17,7 @@ class SpecModifier {
   }
 
   static void configureServer(HttpServletRequest request, JsonNode spec) {
-    String serverUrl = HttpUtil.getCompleteUrl(request, "api", "v2", "openapi");
+    String serverUrl = HttpUtil.getCompleteUrl(request, "api");
 
     ObjectNode serverNode = new ObjectNode(JsonNodeFactory.instance);
     serverNode.set("url", new TextNode(serverUrl));

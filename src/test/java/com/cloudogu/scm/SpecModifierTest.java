@@ -26,7 +26,7 @@ class SpecModifierTest {
 
   @Test
   void shouldConfigureServer() throws IOException {
-    mockRequest("https://scm.hitchhiker.com", "/scm", "/api/v2/openapi");
+    mockRequest("https://scm.hitchhiker.com", "/scm", "/api");
     JsonNode node = readJsonNode("scm-openapi.json");
 
     SpecModifier.configureServer(request, node);
@@ -34,14 +34,14 @@ class SpecModifierTest {
     Iterator<JsonNode> servers = node.get("servers").iterator();
     JsonNode server = servers.next();
 
-    assertThat(server.get("url").asText()).isEqualTo("https://scm.hitchhiker.com/scm/api/v2/openapi");
+    assertThat(server.get("url").asText()).isEqualTo("https://scm.hitchhiker.com/scm/api");
     assertThat(server.has("description")).isFalse();
     assertThat(servers.hasNext()).isFalse();
   }
 
   @Test
   void shouldConfigureOnlyOneServer() throws IOException {
-    mockRequest("https://hitchhiker.com", "/scm", "/api/v2/openapi");
+    mockRequest("https://hitchhiker.com", "/scm", "/api");
     JsonNode node = readJsonNode("multi-server.json");
 
     SpecModifier.configureServer(request, node);
@@ -53,7 +53,7 @@ class SpecModifierTest {
 
   @Test
   void shouldConfigureServerEvenWithoutExistingServer() throws IOException {
-    mockRequest("https://hitchhiker.com", "/scmv2", "/api/openapi");
+    mockRequest("https://hitchhiker.com", "/scmv2", "/api");
     JsonNode node = readJsonNode("hg-openapi.json");
 
     SpecModifier.configureServer(request, node);
