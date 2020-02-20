@@ -17,5 +17,4 @@ const SwaggerUIRoute = () => {
 };
 
 binder.bind("main.route", SwaggerUIRoute);
-
-binder.bind("footer.links", RestDocumentationLink);
+binder.bind("footer.information", RestDocumentationLink);
