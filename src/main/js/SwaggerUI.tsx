@@ -20,6 +20,7 @@ const SwaggerUI: FC = () => {
   const [error, setError] = useState<Error | undefined>(undefined);
   const [t] = useTranslation("plugins");
   useEffect(() => {
+    document.title = t("scm-openapi-plugin.pageTitle");
     apiClient
       .get("openapi")
       .then(response => response.json())
