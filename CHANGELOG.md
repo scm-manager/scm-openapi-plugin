@@ -9,7 +9,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Add title to REST-API page ([#1](https://github.com/scm-manager/scm-openapi-plugin/pull/1))
 
-## 1.0.0-rc1 - 2020-03-13
+### Changed
+- Changeover to MIT license ([#2](https://github.com/scm-manager/scm-openapi-plugin/pull/2))
 
+## 1.0.0-rc1 - 2020-03-13
 First release
 
