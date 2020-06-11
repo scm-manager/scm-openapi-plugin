@@ -21,7 +21,7 @@
     "react-router-dom" : "^5.1.2",
     "redux" : "^4.0.0",
     "styled-components" : "^4.4.0",
-    "swagger-ui-react" : "^3.25.0"
+    "swagger-ui-react" : "^3.26.0"
   },
   "babel" : {
     "presets" : [ "@scm-manager/babel-preset" ]
