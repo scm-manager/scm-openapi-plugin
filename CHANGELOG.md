@@ -7,7 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Unreleased
 ### Added
-- Documentation in German ([#3](https://github.com/scm-manager/scm-openapi-plugin/pull/3))
+- Documentation in English and German ([#3](https://github.com/scm-manager/scm-openapi-plugin/pull/3))
+
 ## 1.0.1 - 2020-06-11
 ### Fixed
 - fixed broken ui by updating swagger-ui-react to 3.26.0
