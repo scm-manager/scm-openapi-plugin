@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Unreleased
 ### Added
 - Documentation in English and German ([#3](https://github.com/scm-manager/scm-openapi-plugin/pull/3))
+- Fix page reload when switching focus ([#12](https://github.com/scm-manager/scm-openapi-plugin/pull/12))
 
 ## 1.0.1 - 2020-06-11
 ### Fixed
