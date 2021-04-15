@@ -65,13 +65,13 @@ A quick look at the files and directories you'll see in an SCM-Manager project.
 1.  **`node_modules/`**: This directory contains all modules of code that your project depends on (npm packages) are automatically installed.
 
 2.  **`src/`**: This directory will contain all code related to what you see or not. `src` is a convention for “source code”.
-  1. **`main/`**
-    1. **`java/`**: This directory contains the Java code.
-    2. **`js/`**: This directory contains the JavaScript code for the web ui, inclusive unit tests: suffixed with `.test.ts`
-    3. **`resources/`**: This directory contains the classpath resources.
-  2. **`test/`**
-    1. **`java/`**: This directory contains the Java unit tests.
-    3. **`resources/`**: This directory contains classpath resources for unit tests.
+    1. **`main/`**
+        1. **`java/`**: This directory contains the Java code.
+        2. **`js/`**: This directory contains the JavaScript code for the web ui, inclusive unit tests: suffixed with `.test.ts`
+        3. **`resources/`**: This directory contains the classpath resources.
+    2. **`test/`**
+        1. **`java/`**: This directory contains the Java unit tests.
+        2. **`resources/`**: This directory contains classpath resources for unit tests.
 
 3.  **`.editorconfig`**: This is a configuration file for your editor using [EditorConfig](https://editorconfig.org/). The file specifies a style that IDEs use for code.
 
@@ -83,7 +83,7 @@ A quick look at the files and directories you'll see in an SCM-Manager project.
 
 7.  **`gradle.properties`**: Defines the module version.
 
-8.  **`gradlew`**: Bundled gradle wrapper if you don`t have gradle installed.
+8.  **`gradlew`**: Bundled gradle wrapper if you don't have gradle installed.
 
 9.  **`LICENSE.txt`**: This project is licensed under the MIT license.
 
