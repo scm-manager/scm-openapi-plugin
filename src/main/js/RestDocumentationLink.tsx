@@ -34,7 +34,11 @@ type Props = {
 const RestDocumentationLink: FC<Props> = ({ links }) => {
   const [t] = useTranslation("plugins");
   if (links?.openapi) {
-    return <Link to={"/openapi"}>{t("scm-openapi-plugin.restDocumentation")}</Link>;
+    return (
+      <li>
+        <Link to={"/openapi"}>{t("scm-openapi-plugin.restDocumentation")}</Link>
+      </li>
+    );
   }
   return null;
 };
