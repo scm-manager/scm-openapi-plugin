@@ -24,6 +24,7 @@
 import React, { FC, useEffect, useState } from "react";
 import SwaggerUIReact from "swagger-ui-react";
 import "swagger-ui-react/swagger-ui.css";
+import "./swaggerUIColors.css";
 import { apiClient, ErrorPage, Loading } from "@scm-manager/ui-components";
 import styled from "styled-components";
 import { useTranslation } from "react-i18next";
