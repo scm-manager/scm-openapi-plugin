@@ -1,0 +1,2 @@
+- type: changed
+  description: Override swagger ui theme ([#29](https://github.com/scm-manager/scm-openapi-plugin/pull/29))
