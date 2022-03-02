@@ -31,6 +31,7 @@
 
 .swagger-ui .opblock-tag,
 .swagger-ui .opblock-tag small,
+.swagger-ui .opblock-tag svg,
 .swagger-ui .parameter__type {
   color: var(--scm-secondary-text)
 }
