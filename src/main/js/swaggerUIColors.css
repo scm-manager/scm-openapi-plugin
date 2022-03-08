@@ -315,7 +315,7 @@
 }
 
 .swagger-ui .model-title {
-  color: var(--scm-dark-color)
+  color: var(--scm-secondary-more-color)
 }
 
 .swagger-ui .model-deprecated-warning {
@@ -332,6 +332,18 @@
 
 .swagger-ui table.headers td {
   color: var(--scm-secondary-text)
+}
+
+.swagger-ui table.model tr.property-row td:first-child {
+  color: var(--scm-secondary-text)
+}
+
+.swagger-ui span.prop-type {
+  color: var(--scm-info-color)
+}
+
+.swagger-ui span.prop-enum {
+  color: var(--scm-info-color)
 }
 
 .swagger-ui table thead tr td,
