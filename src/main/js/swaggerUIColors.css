@@ -1,0 +1,420 @@
+/*
+ * MIT License
+ *
+ * Copyright (c) 2020-present Cloudogu GmbH and Contributors
+ *
+ * Permission is hereby granted, free of charge, to any person obtaining a copy
+ * of this software and associated documentation files (the "Software"), to deal
+ * in the Software without restriction, including without limitation the rights
+ * to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+ * copies of the Software, and to permit persons to whom the Software is
+ * furnished to do so, subject to the following conditions:
+ *
+ * The above copyright notice and this permission notice shall be included in all
+ * copies or substantial portions of the Software.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+ * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+ * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+ * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+ * SOFTWARE.
+ */
+.swagger-ui {
+  color: var(--scm-secondary-text);
+}
+
+.swagger-ui .opblock-tag {
+  border-bottom: var(--scm-border)
+}
+
+.swagger-ui .opblock-tag,
+.swagger-ui .opblock-tag small,
+.swagger-ui .opblock-tag svg,
+.swagger-ui .parameter__type {
+  color: var(--scm-secondary-text)
+}
+
+.swagger-ui .opblock {
+  border: var(--scm-border)
+}
+
+.swagger-ui .opblock .tab-header .tab-item.active h4 span:after {
+  background: var(--scm-secondary-color)
+}
+
+.swagger-ui .opblock .opblock-section-header {
+  background: var(--scm-secondary-less-color);
+}
+
+.swagger-ui .opblock .opblock-section-header>label {
+  color: var(--scm-secondary-text)
+}
+
+.swagger-ui .opblock .opblock-section-header h4 {
+  color: var(--scm-secondary-text)
+}
+
+.swagger-ui .opblock .opblock-summary-operation-id,
+.swagger-ui .opblock .opblock-summary-path,
+.swagger-ui .opblock .opblock-summary-path__deprecated {
+  color: var(--scm-secondary-text)
+}
+
+.swagger-ui .opblock .opblock-summary-description {
+  color: var(--scm-secondary-text)
+}
+
+.swagger-ui .authorization__btn {
+  fill: var(--scm-secondary-text);
+}
+
+.swagger-ui .opblock.opblock-post {
+  border-color: var(--scm-success-color);
+}
+
+.swagger-ui .opblock.opblock-post .opblock-summary-method {
+  background: var(--scm-success-color)
+}
+
+.swagger-ui .opblock.opblock-post .opblock-summary {
+  border-color: var(--scm-success-color)
+}
+
+.swagger-ui .opblock.opblock-post .tab-header .tab-item.active h4 span:after {
+  background: var(--scm-success-color)
+}
+
+.swagger-ui .opblock.opblock-delete {
+  border-color: var(--scm-danger-color);
+}
+
+.swagger-ui .opblock.opblock-delete .opblock-summary-method {
+  background: var(--scm-danger-color)
+}
+
+.swagger-ui .opblock.opblock-delete .opblock-summary {
+  border-color: var(--scm-danger-color)
+}
+
+.swagger-ui .opblock.opblock-delete .tab-header .tab-item.active h4 span:after {
+  background: var(--scm-danger-color)
+}
+
+.swagger-ui .opblock.opblock-get {
+  border-color: var(--scm-info-color);
+}
+
+.swagger-ui .opblock.opblock-get .opblock-summary-method {
+  background: var(--scm-info-color)
+}
+
+.swagger-ui .opblock.opblock-get .opblock-summary {
+  border-color: var(--scm-info-color)
+}
+
+.swagger-ui .opblock.opblock-get .tab-header .tab-item.active h4 span:after {
+  background: var(--scm-info-color)
+}
+
+.swagger-ui .tab li {
+  color: var(--scm-secondary-text)
+}
+
+.swagger-ui .opblock-description-wrapper,
+.swagger-ui .opblock-external-docs-wrapper,
+.swagger-ui .opblock-title_normal {
+  color: var(--scm-secondary-text)
+}
+
+.swagger-ui .opblock-description-wrapper h4,
+.swagger-ui .opblock-external-docs-wrapper h4,
+.swagger-ui .opblock-title_normal h4 {
+  color: var(--scm-secondary-text)
+}
+
+.swagger-ui .opblock-description-wrapper p,
+.swagger-ui .opblock-external-docs-wrapper p,
+.swagger-ui .opblock-title_normal p {
+  color: var(--scm-secondary-text)
+}
+
+.swagger-ui .responses-inner h4,
+.swagger-ui .responses-inner h5 {
+  color: var(--scm-secondary-text)
+}
+
+.swagger-ui .response-col_status {
+  color: var(--scm-secondary-text)
+}
+
+.swagger-ui .response-col_links {
+  color: var(--scm-secondary-text)
+}
+
+.swagger-ui .opblock-body pre.microlight code {
+  color: white;
+}
+
+.swagger-ui .download-contents {
+  border: 1px solid #fff;
+  background: var(--scm-dark-color);
+  color: #fff
+}
+
+.swagger-ui .scheme-container {
+  background: var(--scm-secondary-less-color)
+}
+
+.swagger-ui .scheme-container .schemes>label {
+  color: var(--scm-secondary-text)
+}
+
+.swagger-ui .loading-container .loading:after {
+  color: var(--scm-secondary-text)
+}
+
+.swagger-ui section h3 {
+  color: var(--scm-secondary-text)
+}
+
+.swagger-ui .btn {
+  color: var(--scm-secondary-text)
+}
+
+.swagger-ui .btn.authorize {
+  color: var(--scm-primary-color);
+  border-color: var(--scm-primary-color);
+}
+
+.swagger-ui .btn.authorize svg {
+  fill: var(--scm-primary-color)
+}
+
+.swagger-ui .btn.execute {
+  background-color: var(--scm-info-color);
+  border-color: var(--scm-info-color)
+}
+
+.swagger-ui button.invalid {
+  border-color: var(--scm-danger-color);
+}
+
+.swagger-ui .copy-to-clipboard {
+  border: 1px solid #fff;
+  background: var(--scm-dark-color)
+}
+
+.swagger-ui .curl-command .copy-to-clipboard {
+  width: 22px;
+  height: 22px;
+}
+
+.swagger-ui select {
+  /* use default select arrow instead */
+  background: var(--scm-secondary-background);
+  appearance: auto;
+  padding: 5px 10px;
+  color: var(--scm-secondary-text);
+}
+
+.swagger-ui-select-svg-fill {
+  fill: var(--scm-secondary-text);
+}
+
+.swagger-ui select.invalid {
+  border-color: var(--scm-danger-color);
+}
+
+.swagger-ui label {
+  color: var(--scm-secondary-text)
+}
+
+.swagger-ui input[type=email],
+.swagger-ui input[type=file],
+.swagger-ui input[type=password],
+.swagger-ui input[type=search],
+.swagger-ui input[type=text],
+.swagger-ui textarea {
+  color: var(--scm-secondary-text);
+  background: var(--scm-secondary-background)
+}
+
+.swagger-ui input[type=email].invalid,
+.swagger-ui input[type=file].invalid,
+.swagger-ui input[type=password].invalid,
+.swagger-ui input[type=search].invalid,
+.swagger-ui input[type=text].invalid,
+.swagger-ui textarea.invalid {
+  border-color: var(--scm-danger-color);
+  background: var(--scm-secondary-less-color)
+}
+
+.swagger-ui textarea {
+  background: var(--scm-secondary-background);
+  color: var(--scm-secondary-text)
+}
+
+.swagger-ui textarea:focus {
+  border-color: var(--scm-info-color)
+}
+
+.swagger-ui .checkbox p {
+  color: var(--scm-secondary-text)
+}
+
+.swagger-ui .dialog-ux .modal-ux {
+  border: var(--scm-border);
+  background: var(--scm-secondary-less-color);
+}
+
+.swagger-ui .dialog-ux .modal-ux-content p {
+  color: var(--scm-secondary-text)
+}
+
+.swagger-ui .dialog-ux .modal-ux-content h4 {
+  color: var(--scm-secondary-text)
+}
+
+.swagger-ui .dialog-ux .modal-ux-header {
+  border-bottom: var(--scm-border);
+}
+
+.swagger-ui .dialog-ux .modal-ux-header h3 {
+  color: var(--scm-secondary-text)
+}
+
+.swagger-ui .dialog-ux .modal-ux-header .close-modal {
+  fill: var(--scm-secondary-text)
+}
+
+.swagger-ui .model {
+  color: var(--scm-dark-color);
+}
+
+.swagger-ui section.models {
+  border: var(--scm-border);
+}
+
+.swagger-ui section.models.is-open h4 {
+  border-bottom: var(--scm-border)
+}
+
+.swagger-ui section.models h4 {
+  color: var(--scm-secondary-more-color)
+}
+
+.swagger-ui section.models .model-container,
+.swagger-ui section.models .model-container:hover {
+  background: var(--scm-light-color)
+}
+
+.swagger-ui .model-box {
+  background: var(--scm-light-color)
+}
+
+.swagger-ui .model-title {
+  color: var(--scm-secondary-more-color)
+}
+
+.swagger-ui .model-deprecated-warning {
+  color: var(--scm-danger-color)
+}
+
+.swagger-ui .prop-format {
+  color: var(--scm-secondary-more-color)
+}
+
+.swagger-ui .servers>label {
+  color: var(--scm-secondary-text)
+}
+
+.swagger-ui table.headers td {
+  color: var(--scm-secondary-text)
+}
+
+.swagger-ui table.model tr.property-row td:first-child {
+  color: var(--scm-secondary-text)
+}
+
+.swagger-ui span.prop-type {
+  color: var(--scm-info-color)
+}
+
+.swagger-ui span.prop-enum {
+  color: var(--scm-info-color)
+}
+
+.swagger-ui table thead tr td,
+.swagger-ui table thead tr th {
+  color: var(--scm-secondary-text)
+}
+
+.swagger-ui .parameter__name {
+  color: var(--scm-secondary-text)
+}
+
+.swagger-ui .info li,
+.swagger-ui .info p,
+.swagger-ui .info table {
+  color: var(--scm-secondary-text);
+}
+
+.swagger-ui .info h1,
+.swagger-ui .info h2,
+.swagger-ui .info h3,
+.swagger-ui .info h4,
+.swagger-ui .info h5 {
+  color: var(--scm-secondary-text)
+}
+
+.swagger-ui .info a {
+  color: var(--scm-info-color)
+}
+
+.swagger-ui .info a:hover {
+  color: inherit;
+}
+
+.swagger-ui .info .base-url {
+  color: var(--scm-secondary-text)
+}
+
+.swagger-ui .info .title {
+  color: inherit;
+  font-size: 2rem;
+}
+
+.swagger-ui .auth-container {
+  border-bottom: var(--scm-border)
+}
+
+.swagger-ui .auth-container .errors {
+  background: var(--scm-secondary-background);
+  color: var(--scm-secondary-text)
+}
+
+.swagger-ui .scopes h2 {
+  color: var(--scm-secondary-text)
+}
+
+.swagger-ui .scopes h2 a {
+  color: var(--scm-info-color);
+}
+
+.swagger-ui .errors-wrapper {
+  border-color: var(--scm-danger-color);
+}
+
+.swagger-ui .errors-wrapper .errors h4 {
+  color: var(--scm-secondary-text)
+}
+
+.swagger-ui .errors-wrapper .errors small {
+  color: var(--scm-secondary-more-color)
+}
+
+.swagger-ui .errors-wrapper hgroup h4 {
+  color: var(--scm-secondary-text)
+}
