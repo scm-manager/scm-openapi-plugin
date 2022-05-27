@@ -1,2 +1,0 @@
-- type: fixed
-  description: Hide rest api link if the user is not authenticated ([#33](https://github.com/scm-manager/scm-openapi-plugin/pull/33))
