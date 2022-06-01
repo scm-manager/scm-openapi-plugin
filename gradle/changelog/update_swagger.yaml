@@ -1,0 +1,2 @@
+- type: fixed
+  description: OpenApi documentation cannot be displayed ([#35](https://github.com/scm-manager/scm-openapi-plugin/pull/35))
