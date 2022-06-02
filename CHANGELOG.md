@@ -5,6 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 1.1.2 - 2022-06-02
+### Fixed
+- OpenApi documentation cannot be displayed ([#35](https://github.com/scm-manager/scm-openapi-plugin/pull/35))
+
 ## 1.1.1 - 2022-05-27
 ### Fixed
 - Hide rest api link if the user is not authenticated ([#33](https://github.com/scm-manager/scm-openapi-plugin/pull/33))
