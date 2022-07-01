@@ -30,7 +30,7 @@ dependencies {
 }
 
 scmPlugin {
-  scmVersion = "2.10.0"
+  scmVersion = "2.32.0"
 
   displayName = "OpenAPI"
   description = "OpenAPI-spec and SwaggerUI for SCM-Manager"
