@@ -103,6 +103,10 @@ public class OpenAPISpecCollector {
   }
 
   private void mergeObject(JsonNode mainNode, JsonNode updateNode) {
+    if (updateNode == null) {
+      return;
+    }
+
     Iterator<String> fieldNames = updateNode.fieldNames();
 
     while (fieldNames.hasNext()) {

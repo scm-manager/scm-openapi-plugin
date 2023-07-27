@@ -1,0 +1,2 @@
+- type: fixed
+  description: Nullpointer Exception if schemas have different definitions for same fields

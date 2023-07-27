@@ -1,0 +1,982 @@
+{
+  "openapi" : "3.0.1",
+  "tags" : [ {
+    "name" : "Teamscale Plugin",
+    "description" : "Teamscale plugin provided endpoints"
+  }, {
+    "name" : "Pull Request for Teamscale",
+    "description" : "Pull request endpoints provided by the teamscale-plugin"
+  } ],
+  "paths" : {
+    "/v2/teamscale/configuration/{namespace}/{name}" : {
+      "get" : {
+        "tags" : [ "Teamscale Plugin" ],
+        "summary" : "Get repository-specific teamscale configuration",
+        "description" : "Returns the repository-specific teamscale configuration.",
+        "operationId" : "teamscale_get_repo_config",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ConfigurationDto"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized /  the current user does not have the right privilege"
+          },
+          "404" : {
+            "description" : "not found / no repository available for given parameters",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Teamscale Plugin" ],
+        "summary" : "Update repository-specific teamscale configuration",
+        "description" : "Modifies the repository-specific teamscale configuration.",
+        "operationId" : "teamscale_update_repo_config",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ConfigurationDto"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "204" : {
+            "description" : "update success"
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized /  the current user does not have the right privilege"
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/teamscale/configuration" : {
+      "get" : {
+        "tags" : [ "Teamscale Plugin" ],
+        "summary" : "Get global teamscale configuration",
+        "description" : "Returns the global teamscale configuration.",
+        "operationId" : "teamscale_get_global_config",
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ConfigurationDto"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized /  the current user does not have the right privilege"
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Teamscale Plugin" ],
+        "summary" : "Update global teamscale configuration",
+        "description" : "Modifies the global teamscale configuration.",
+        "operationId" : "teamscale_update_global_config",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/GlobalConfigurationDto"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "204" : {
+            "description" : "update success"
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized /  the current user does not have the right privilege"
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/teamscale/pull-request/comments/{namespace}/{name}/{pullRequestId}" : {
+      "get" : {
+        "tags" : [ "Pull Request for Teamscale" ],
+        "summary" : "Get all pull request comments",
+        "description" : "Returns all pull request comments.",
+        "operationId" : "teamscale_get_comments",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "pullRequestId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "content" : {
+              "application/vnd.scmm-teamscalePullRequest+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/HalRepresentation"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized, the current user does not have the \"commentPullRequest\" privilege"
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Pull Request for Teamscale" ],
+        "summary" : "Create pull request comment",
+        "description" : "Creates a new pull request comment.",
+        "operationId" : "teamscale_create_comment",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "pullRequestId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "sourceRevision",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "targetRevision",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/vnd.scmm-teamscalePullRequest+json;v=2" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/CommentDto"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "create success"
+          },
+          "400" : {
+            "description" : "Invalid body, e.g. illegal change of namespace or name"
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized, the current user does not have the \"commentPullRequest\" privilege"
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/teamscale/pull-request/comments/{namespace}/{name}/{pullRequestId}/{commentId}" : {
+      "delete" : {
+        "tags" : [ "Pull Request for Teamscale" ],
+        "summary" : "Delete pull request comment",
+        "description" : "Deletes a pull request comment.",
+        "operationId" : "teamscale_delete_comment",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "pullRequestId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "commentId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "sourceRevision",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "targetRevision",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "delete success or nothing to delete"
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized, the current user does not have the \"commentPullRequest\" privilege"
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/teamscale/pull-request/{namespace}/{name}" : {
+      "get" : {
+        "tags" : [ "Pull Request for Teamscale" ],
+        "summary" : "Collection of pull requests",
+        "description" : "Returns a list of pull requests by status.",
+        "operationId" : "teamscale_get_pull_request_collection",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "status",
+          "in" : "query",
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "ALL", "OPEN", "MINE", "REVIEWER", "MERGED", "REJECTED" ],
+            "default" : "OPEN"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "content" : {
+              "application/vnd.scmm-teamscalePullRequest+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/HalRepresentation"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized, the current user does not have the \"readPullRequest\" privilege"
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/teamscale/pull-request/{namespace}/{name}/{pullRequestId}/findings" : {
+      "get" : {
+        "tags" : [ "Pull Request for Teamscale" ],
+        "summary" : "Get teamscale findings for pull request",
+        "description" : "Returns teamscale findings for pull request.",
+        "operationId" : "teamscale_get_findings",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "pullRequestId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "content" : {
+              "application/vnd.scmm-teamscaleFindings+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/HalRepresentation"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized, the current user does not have the \"readTeamscaleFindings\" privilege"
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Pull Request for Teamscale" ],
+        "summary" : "Update teamscale findings for pull request",
+        "description" : "Updates teamscale findings for pull request.",
+        "operationId" : "teamscale_put_findings",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "pullRequestId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/vnd.scmm-teamscaleFindings+json;v=2" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/FindingsDto"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "204" : {
+            "description" : "no content"
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized, the current user does not have the \"writeTeamscaleFindings\" privilege"
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/teamscale/pull-request/{namespace}/{name}/{pullRequestId}" : {
+      "get" : {
+        "tags" : [ "Pull Request for Teamscale" ],
+        "summary" : "Get pull request",
+        "description" : "Returns a single pull request by id.",
+        "operationId" : "teamscale_get_pull_request",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "pullRequestId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "content" : {
+              "application/vnd.scmm-teamscalePullRequest+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PullRequestDto"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized, the current user does not have the \"readPullRequest\" privilege"
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "ConfigurationDto" : {
+        "type" : "object",
+        "properties" : {
+          "url" : {
+            "type" : "string"
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "_embedded" : {
+            "$ref" : "#/components/schemas/Embedded"
+          }
+        }
+      },
+      "Embedded" : {
+        "type" : "object",
+        "properties" : {
+          "empty" : {
+            "type" : "boolean"
+          }
+        }
+      },
+      "Links" : {
+        "type" : "object",
+        "properties" : {
+          "empty" : {
+            "type" : "boolean"
+          }
+        }
+      },
+      "ConstraintViolationDto" : {
+        "type" : "object",
+        "properties" : {
+          "path" : {
+            "type" : "string"
+          },
+          "message" : {
+            "type" : "string"
+          }
+        },
+        "xml" : {
+          "name" : "violation"
+        }
+      },
+      "ContextEntry" : {
+        "type" : "object",
+        "properties" : {
+          "type" : {
+            "type" : "string"
+          },
+          "id" : {
+            "type" : "string"
+          }
+        }
+      },
+      "ErrorDto" : {
+        "type" : "object",
+        "properties" : {
+          "transactionId" : {
+            "type" : "string"
+          },
+          "errorCode" : {
+            "type" : "string"
+          },
+          "context" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ContextEntry"
+            }
+          },
+          "message" : {
+            "type" : "string"
+          },
+          "violations" : {
+            "type" : "array",
+            "xml" : {
+              "wrapped" : true
+            },
+            "items" : {
+              "$ref" : "#/components/schemas/ConstraintViolationDto"
+            }
+          },
+          "url" : {
+            "type" : "string"
+          }
+        }
+      },
+      "GlobalConfigurationDto" : {
+        "type" : "object",
+        "properties" : {
+          "url" : {
+            "type" : "string"
+          },
+          "disableRepositoryConfiguration" : {
+            "type" : "boolean"
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "_embedded" : {
+            "$ref" : "#/components/schemas/Embedded"
+          }
+        }
+      },
+      "CommentDto" : {
+        "type" : "object",
+        "properties" : {
+          "comment" : {
+            "maxLength" : 2147483647,
+            "minLength" : 1,
+            "type" : "string"
+          },
+          "id" : {
+            "type" : "string"
+          },
+          "author" : {
+            "$ref" : "#/components/schemas/DisplayedUserDto"
+          },
+          "mentions" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/DisplayedUserDto"
+            }
+          },
+          "date" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "location" : {
+            "$ref" : "#/components/schemas/LocationDto"
+          },
+          "systemComment" : {
+            "type" : "boolean"
+          },
+          "outdated" : {
+            "type" : "boolean"
+          },
+          "emergencyMerged" : {
+            "type" : "boolean"
+          },
+          "type" : {
+            "type" : "string"
+          },
+          "context" : {
+            "$ref" : "#/components/schemas/InlineContextDto"
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "_embedded" : {
+            "$ref" : "#/components/schemas/Embedded"
+          }
+        }
+      },
+      "ContextLineDto" : {
+        "type" : "object",
+        "properties" : {
+          "oldLineNumber" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "newLineNumber" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "content" : {
+            "type" : "string"
+          }
+        }
+      },
+      "DisplayedUserDto" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "displayName" : {
+            "type" : "string"
+          },
+          "mail" : {
+            "type" : "string"
+          }
+        }
+      },
+      "InlineContextDto" : {
+        "type" : "object",
+        "properties" : {
+          "lines" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ContextLineDto"
+            }
+          }
+        }
+      },
+      "LocationDto" : {
+        "type" : "object",
+        "properties" : {
+          "file" : {
+            "maxLength" : 2147483647,
+            "minLength" : 1,
+            "type" : "string"
+          },
+          "hunk" : {
+            "maxLength" : 2147483647,
+            "minLength" : 1,
+            "type" : "string"
+          },
+          "oldLineNumber" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "newLineNumber" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }
+      },
+      "HalRepresentation" : {
+        "type" : "object",
+        "properties" : {
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "_embedded" : {
+            "$ref" : "#/components/schemas/Embedded"
+          }
+        }
+      },
+      "PullRequestDto" : {
+        "required" : [ "source", "target", "title" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "author" : {
+            "$ref" : "#/components/schemas/DisplayedUserDto"
+          },
+          "source" : {
+            "type" : "string"
+          },
+          "target" : {
+            "type" : "string"
+          },
+          "title" : {
+            "type" : "string"
+          },
+          "description" : {
+            "type" : "string"
+          },
+          "creationDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "lastModified" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "status" : {
+            "type" : "string",
+            "enum" : [ "OPEN", "MERGED", "REJECTED" ]
+          },
+          "reviewer" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ReviewerDto"
+            }
+          },
+          "tasks" : {
+            "$ref" : "#/components/schemas/TasksDto"
+          },
+          "sourceRevision" : {
+            "type" : "string"
+          },
+          "targetRevision" : {
+            "type" : "string"
+          },
+          "markedAsReviewed" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "emergencyMerged" : {
+            "type" : "boolean"
+          },
+          "ignoredMergeObstacles" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "_embedded" : {
+            "$ref" : "#/components/schemas/Embedded"
+          }
+        }
+      },
+      "ReviewerDto" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "displayName" : {
+            "type" : "string"
+          },
+          "mail" : {
+            "type" : "string"
+          },
+          "approved" : {
+            "type" : "boolean"
+          }
+        }
+      },
+      "TasksDto" : {
+        "type" : "object",
+        "properties" : {
+          "todo" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "done" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }
+      },
+      "FindingsDto" : {
+        "type" : "object",
+        "properties" : {
+          "content" : {
+            "type" : "string"
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "_embedded" : {
+            "$ref" : "#/components/schemas/Embedded"
+          }
+        }
+      }
+    }
+  }
+}

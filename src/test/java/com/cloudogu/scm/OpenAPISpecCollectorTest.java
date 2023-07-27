@@ -144,6 +144,19 @@ class OpenAPISpecCollectorTest {
     assertThat(root.get("info").get("title").asText()).isEqualTo("SCM-Manager REST-API");
   }
 
+  @Test
+  void shouldFailForConflictingApiSpecs() throws IOException {
+    bindResourceEnum("scm-openapi.json", "review.json", "teamscale.json");
+
+    JsonNode root = collector.getMergedOpenAPISpecs();
+
+    assertThat(root.get("components").get("schemas").get("PullRequestDto").get("required").isArray()).isTrue();
+    assertThat(root.get("components").get("schemas").get("PullRequestDto").get("required").get(0).asText()).isEqualTo("source");
+    assertThat(root.get("components").get("schemas").get("PullRequestDto").get("required").get(1).asText()).isEqualTo("status");
+    assertThat(root.get("components").get("schemas").get("PullRequestDto").get("required").get(2).asText()).isEqualTo("target");
+    assertThat(root.get("components").get("schemas").get("PullRequestDto").get("required").get(3).asText()).isEqualTo("title");
+  }
+
   private void bindResourceEnum(String... resources) throws IOException {
     Enumeration<URL> resourceEnum = createResourceEnum(resources);
     when(uberClassLoader.getResources("META-INF/scm/openapi.json")).thenReturn(resourceEnum);

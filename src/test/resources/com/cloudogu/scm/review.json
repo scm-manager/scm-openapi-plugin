@@ -1,0 +1,3302 @@
+{
+  "openapi" : "3.0.1",
+  "tags" : [ {
+    "name" : "Pull Request Configuration",
+    "description" : "Pull request configuration endpoints provided by review-plugin"
+  }, {
+    "name" : "Pull Request",
+    "description" : "Pull request endpoints provided by the review-plugin"
+  }, {
+    "name" : "Pull Request Comment",
+    "description" : "Pull request comment endpoints provided by the review-plugin"
+  }, {
+    "name" : "Workflow Engine",
+    "description" : "Workflow engine related endpoints provided by review-plugin"
+  } ],
+  "paths" : {
+    "/v2/pull-requests/config" : {
+      "get" : {
+        "tags" : [ "Pull Request Configuration" ],
+        "summary" : "Global pull request configuration",
+        "description" : "Returns the global pull request configuration.",
+        "operationId" : "review_get_global_config",
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/GlobalPullRequestConfigDto"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized, the current user does not have the \"configurePullRequest\" privilege"
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Pull Request Configuration" ],
+        "summary" : "Update global pull request configuration",
+        "description" : "Modifies the global pull request configuration.",
+        "operationId" : "review_put_global_config",
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/GlobalPullRequestConfigDto"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "204" : {
+            "description" : "update success"
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized, the current user does not have the \"configurePullRequest\" privilege"
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/pull-requests/{namespace}/{name}/config" : {
+      "get" : {
+        "tags" : [ "Pull Request Configuration" ],
+        "summary" : "Repository pull request configuration",
+        "description" : "Returns the repository-specific pull request configuration.",
+        "operationId" : "review_get_repo_config",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PullRequestConfigDto"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized, the current user does not have the \"configurePullRequest\" privilege"
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Pull Request Configuration" ],
+        "summary" : "Update Repository pull request configuration",
+        "description" : "Modifies the repository-specific pull request configuration.",
+        "operationId" : "review_put_repo_config",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PullRequestConfigDto"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "204" : {
+            "description" : "update success"
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized, the current user does not have the \"configurePullRequest\" privilege"
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/merge/{namespace}/{name}/{pullRequestId}/merge-check" : {
+      "post" : {
+        "tags" : [ "Pull Request" ],
+        "summary" : "Check pull request merge",
+        "description" : "Checks if the pull request can be merged.",
+        "operationId" : "check",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "pullRequestId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "update success",
+            "content" : {
+              "application/vnd.scmm-mergeCheckResult+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/MergeCheckResultDto"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized, the current user does not have the \"readPullRequest\" privilege"
+          },
+          "404" : {
+            "description" : "not found, no pull request with the specified id is available"
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/merge/{namespace}/{name}/{pullRequestId}/conflicts" : {
+      "post" : {
+        "tags" : [ "Pull Request" ],
+        "summary" : "Get merge conflicts",
+        "description" : "Returns merge conflicts for pull request.",
+        "operationId" : "conflicts",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "pullRequestId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "content" : {
+              "application/vnd.scmm-mergeConflictsResult+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/MergeConflictResultDto"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized, the current user does not have the \"readPullRequest\" privilege"
+          },
+          "404" : {
+            "description" : "not found, no pull request with the specified id is available"
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/merge/{namespace}/{name}/{pullRequestId}/commit-message" : {
+      "get" : {
+        "tags" : [ "Pull Request" ],
+        "summary" : "Get default merge message",
+        "description" : "Returns the default merge commit message by the selected strategy.",
+        "operationId" : "createDefaultCommitMessage",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "pullRequestId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "strategy",
+          "in" : "query",
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "MERGE_COMMIT", "FAST_FORWARD_IF_POSSIBLE", "SQUASH", "REBASE" ]
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "commit message was created",
+            "content" : {
+              "text/plain" : {
+                "schema" : {
+                  "type" : "string"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        },
+        "deprecated" : true
+      }
+    },
+    "/v2/merge/{namespace}/{name}/{pullRequestId}/emergency" : {
+      "post" : {
+        "tags" : [ "Pull Request" ],
+        "summary" : "Merge pull request",
+        "description" : "Merges pull request with selected strategy as emergency merge.",
+        "operationId" : "emergencyMerge",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "pullRequestId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "strategy",
+          "in" : "query",
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "MERGE_COMMIT", "FAST_FORWARD_IF_POSSIBLE", "SQUASH", "REBASE" ]
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/vnd.scmm-mergeCommand+json;v=2" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/MergeCommitDto"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "204" : {
+            "description" : "update success"
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized, the current user does not have the \"performEmergencyMerge\" privilege"
+          },
+          "404" : {
+            "description" : "not found, no pull request with the specified id is available"
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/merge/{namespace}/{name}/{pullRequestId}/merge-strategy-info" : {
+      "get" : {
+        "tags" : [ "Pull Request" ],
+        "summary" : "Get commit message information",
+        "description" : "Returns commit message information for the given merge strategy",
+        "operationId" : "getMergeStrategyInfo",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "pullRequestId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "strategy",
+          "in" : "query",
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "MERGE_COMMIT", "FAST_FORWARD_IF_POSSIBLE", "SQUASH", "REBASE" ]
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "commit message was created",
+            "content" : {
+              "application/vnd.scmm-mergeStrategyInfo+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/MergeStrategyInfoDto"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/merge/{namespace}/{name}/{pullRequestId}" : {
+      "post" : {
+        "tags" : [ "Pull Request" ],
+        "summary" : "Merge pull request",
+        "description" : "Merges pull request with selected strategy.",
+        "operationId" : "merge",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "pullRequestId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "strategy",
+          "in" : "query",
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "MERGE_COMMIT", "FAST_FORWARD_IF_POSSIBLE", "SQUASH", "REBASE" ]
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/vnd.scmm-mergeCommand+json;v=2" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/MergeCommitDto"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "204" : {
+            "description" : "update success"
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized, the current user does not have the \"mergePullRequest\" privilege"
+          },
+          "404" : {
+            "description" : "not found, no pull request with the specified id is available"
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/pull-requests/{namespace}/{name}/check" : {
+      "get" : {
+        "tags" : [ "Pull Request" ],
+        "summary" : "Checks pull request",
+        "description" : "Checks if new pull request can be created.",
+        "operationId" : "review_check_pull_request",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "source",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "target",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Returns pull request check result"
+          },
+          "400" : {
+            "description" : "Invalid request / the provided source branch or target branch may not exist"
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized, the current user does not have the \"createPullRequest\" privilege"
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/pull-requests/{namespace}/{name}" : {
+      "get" : {
+        "tags" : [ "Pull Request" ],
+        "summary" : "Collection of pull requests",
+        "description" : "Returns a list of pull requests by status.",
+        "operationId" : "review_get_pull_request_collection",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "status",
+          "in" : "query",
+          "schema" : {
+            "type" : "string",
+            "enum" : [ "ALL", "IN_PROGRESS", "OPEN", "MINE", "REVIEWER", "MERGED", "REJECTED" ],
+            "default" : "IN_PROGRESS"
+          }
+        }, {
+          "name" : "page",
+          "in" : "query",
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32",
+            "default" : 0
+          }
+        }, {
+          "name" : "pageSize",
+          "in" : "query",
+          "schema" : {
+            "type" : "integer",
+            "format" : "int32",
+            "default" : 10
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "content" : {
+              "application/vnd.scmm-pullRequestCollection+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/HalRepresentation"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized, the current user does not have the \"readPullRequest\" privilege"
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Pull Request" ],
+        "summary" : "Create pull request",
+        "description" : "Creates a new pull request.",
+        "operationId" : "review_create_pull_request",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/vnd.scmm-pullRequest+json;v=2" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PullRequestDto"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "create success"
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized, the current user does not have the \"createPullRequest\" privilege"
+          },
+          "409" : {
+            "description" : "conflict, a similar pull request for these branches already exists"
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/pull-requests/{namespace}/{name}/{pullRequestId}/approve" : {
+      "post" : {
+        "tags" : [ "Pull Request" ],
+        "summary" : "Approve pull request",
+        "description" : "Approves a pull request by id.",
+        "operationId" : "approve",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "pullRequestId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "update success"
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized, the current user does not have the \"commentPullRequest\" privilege"
+          },
+          "404" : {
+            "description" : "not found, no pull request with the specified id is available"
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/pull-requests/{namespace}/{name}/{pullRequestId}/comments" : {
+      "get" : {
+        "tags" : [ "Pull Request Comment" ],
+        "summary" : "Get all pull request comments",
+        "description" : "Returns all pull request comments.",
+        "operationId" : "review_get_comments",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "pullRequestId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/HalRepresentation"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized, the current user does not have the \"commentPullRequest\" privilege"
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post" : {
+        "tags" : [ "Pull Request Comment" ],
+        "summary" : "Create pull request comment",
+        "description" : "Creates a new pull request comment.",
+        "operationId" : "review_create_comment",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "pullRequestId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "sourceRevision",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "targetRevision",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/CommentDto"
+              }
+            }
+          },
+          "required" : true
+        },
+        "responses" : {
+          "201" : {
+            "description" : "create success"
+          },
+          "400" : {
+            "description" : "Invalid body, e.g. illegal change of namespace or name"
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized, the current user does not have the \"commentPullRequest\" privilege"
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/pull-requests/{namespace}/{name}/{pullRequestId}/comments/{commentId}" : {
+      "get" : {
+        "tags" : [ "Pull Request Comment" ],
+        "summary" : "Pull request comment",
+        "description" : "Returns a single pull request comment.",
+        "operationId" : "getComment",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "pullRequestId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "commentId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "sourceRevision",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "targetRevision",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/CommentDto"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized, the current user does not have the \"commentPullRequest\" privilege"
+          },
+          "404" : {
+            "description" : "not found, a comment with the given id is not available for this pull request"
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Pull Request Comment" ],
+        "summary" : "Update pull request comment",
+        "description" : "Modifies a pull request comment.",
+        "operationId" : "updateComment",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "pullRequestId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "commentId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "sourceRevision",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "targetRevision",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/CommentDto"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "204" : {
+            "description" : "update success"
+          },
+          "400" : {
+            "description" : "Invalid body, e.g. illegal change of namespace or name"
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized, the current user does not have the \"commentPullRequest\" privilege"
+          },
+          "404" : {
+            "description" : "not found, no comment with the specified id is available"
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Pull Request Comment" ],
+        "summary" : "Delete pull request comment",
+        "description" : "Deletes a pull request comment.",
+        "operationId" : "deleteComment",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "pullRequestId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "commentId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "sourceRevision",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "targetRevision",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "delete success or nothing to delete"
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized, the current user does not have the \"commentPullRequest\" privilege"
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/pull-requests/{namespace}/{name}/{pullRequestId}/comments/{commentId}/replies/{replyId}" : {
+      "get" : {
+        "tags" : [ "Pull Request Comment" ],
+        "summary" : "Pull request comment reply",
+        "description" : "Returns a single pull request comment reply.",
+        "operationId" : "getReply",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "pullRequestId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "commentId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "replyId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "sourceRevision",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "targetRevision",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ReplyDto"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized, the current user does not have the \"commentPullRequest\" privilege"
+          },
+          "404" : {
+            "description" : "not found, a reply with the given id is not available for this pull request"
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Pull Request Comment" ],
+        "summary" : "Update pull request comment reply",
+        "description" : "Modifies a pull request comment reply.",
+        "operationId" : "updateReply",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "pullRequestId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "commentId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "replyId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "sourceRevision",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "targetRevision",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ReplyDto"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "204" : {
+            "description" : "update success"
+          },
+          "400" : {
+            "description" : "Invalid body, e.g. illegal change of namespace or name"
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized, the current user does not have the \"commentPullRequest\" privilege"
+          },
+          "404" : {
+            "description" : "not found, no comment with the specified id is available"
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Pull Request Comment" ],
+        "summary" : "Delete pull request comment reply",
+        "description" : "Deletes a pull request comment reply.",
+        "operationId" : "deleteReply",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "pullRequestId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "commentId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "replyId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "sourceRevision",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "targetRevision",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "delete success or nothing to delete"
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized, the current user does not have the \"commentPullRequest\" privilege"
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/pull-requests/{namespace}/{name}/{pullRequestId}/comments/{commentId}/transitions/{transitionId}" : {
+      "get" : {
+        "tags" : [ "Pull Request Comment" ],
+        "summary" : "Get pull request comment transition",
+        "description" : "Returns a single pull request comment transition.",
+        "operationId" : "getExecutedTransition",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "pullRequestId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "commentId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "transitionId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "sourceRevision",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "targetRevision",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success"
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized, the current user does not have the \"commentPullRequest\" privilege"
+          },
+          "404" : {
+            "description" : "not found, no comment transition with the specified id is available"
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/pull-requests/{namespace}/{name}/{pullRequestId}/comments/{commentId}/replies" : {
+      "post" : {
+        "tags" : [ "Pull Request Comment" ],
+        "summary" : "Reply to pull request comment",
+        "description" : "Creates a new pull request comment reply.",
+        "operationId" : "reply",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "pullRequestId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "commentId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "sourceRevision",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "targetRevision",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/ReplyDto"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "204" : {
+            "description" : "success"
+          },
+          "400" : {
+            "description" : "Invalid body, e.g. illegal change of namespace or name"
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized, the current user does not have the \"commentPullRequest\" privilege"
+          },
+          "404" : {
+            "description" : "not found, no comment with the specified id is available"
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/pull-requests/{namespace}/{name}/{pullRequestId}/comments/{commentId}/transitions" : {
+      "post" : {
+        "tags" : [ "Pull Request Comment" ],
+        "summary" : "Transform pull request comment",
+        "description" : "Transforms a pull request comment.",
+        "operationId" : "transform",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "pullRequestId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "commentId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "sourceRevision",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "targetRevision",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/json" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/TransitionDto"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "204" : {
+            "description" : "update success"
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized, the current user does not have the \"commentPullRequest\" privilege"
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/pull-requests/{namespace}/{name}/{pullRequestId}/convert-to-pr" : {
+      "post" : {
+        "tags" : [ "Pull Request" ],
+        "summary" : "Convert draft to pull request",
+        "description" : "Converts a draft pull request to a pull request.",
+        "operationId" : "convertToPR",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "pullRequestId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "update success"
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized, the current user does not have the \"mergePullRequest\" privilege"
+          },
+          "404" : {
+            "description" : "not found, no pull request with the specified id is available"
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/pull-requests/{namespace}/{name}/{pullRequestId}/disapprove" : {
+      "post" : {
+        "tags" : [ "Pull Request" ],
+        "summary" : "Disapprove pull request",
+        "description" : "Disapproves an already approved pull request by id.",
+        "operationId" : "disapprove",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "pullRequestId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "update success"
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized, the current user does not have the \"commentPullRequest\" privilege"
+          },
+          "404" : {
+            "description" : "not found, no pull request with the specified id is available"
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/pull-requests/{namespace}/{name}/{pullRequestId}" : {
+      "get" : {
+        "tags" : [ "Pull Request" ],
+        "summary" : "Get pull requests",
+        "description" : "Returns a single pull request by id.",
+        "operationId" : "review_get_pull_requests",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "pullRequestId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "content" : {
+              "application/vnd.scmm-pullRequest+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PullRequestDto"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized, the current user does not have the \"readPullRequest\" privilege"
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Pull Request" ],
+        "summary" : "Update pull request",
+        "description" : "Modifies a pull request.",
+        "operationId" : "review_put_pull_request",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "pullRequestId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/vnd.scmm-pullRequest+json;v=2" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/PullRequestDto"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "204" : {
+            "description" : "update success"
+          },
+          "400" : {
+            "description" : "Invalid body"
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized, the current user does not have the \"modifyPullRequest\" privilege"
+          },
+          "404" : {
+            "description" : "not found, no pull request with the specified id is available"
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/pull-requests/{namespace}/{name}/{pullRequestId}/review-mark/{path}" : {
+      "post" : {
+        "tags" : [ "Pull Request" ],
+        "summary" : "Mark as reviewed",
+        "description" : "Marks a diff in a pull request as reviewed.",
+        "operationId" : "markAsReviewed",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "pullRequestId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "path",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "update success"
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized, the current user does not have the \"modifyPullRequest\" privilege"
+          },
+          "404" : {
+            "description" : "not found, no pull request with the specified id is available"
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete" : {
+        "tags" : [ "Pull Request" ],
+        "summary" : "Unmark as reviewed",
+        "description" : "Unmarks a diff in a pull request which was before marked as reviewed.",
+        "operationId" : "markAsNotReviewed",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "pullRequestId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "path",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "update success"
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized, the current user does not have the \"modifyPullRequest\" privilege"
+          },
+          "404" : {
+            "description" : "not found, no pull request with the specified id is available"
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/pull-requests/{namespace}/{name}/{pullRequestId}/reject" : {
+      "post" : {
+        "tags" : [ "Pull Request" ],
+        "summary" : "Reject pull request",
+        "description" : "Rejects a pull request.",
+        "operationId" : "reject",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "pullRequestId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "update success"
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized, the current user does not have the \"modifyPullRequest\" privilege"
+          },
+          "404" : {
+            "description" : "not found, no pull request with the specified id is available"
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/pull-requests/{namespace}/{name}/{pullRequestId}/subscribe" : {
+      "post" : {
+        "tags" : [ "Pull Request" ],
+        "summary" : "Subscribe",
+        "description" : "Subscribes current user to a pull request.",
+        "operationId" : "subscribe",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "pullRequestId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "update success"
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized, the current user does not have the \"modifyPullRequest\" privilege"
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/pull-requests/{namespace}/{name}/{pullRequestId}/unsubscribe" : {
+      "post" : {
+        "tags" : [ "Pull Request" ],
+        "summary" : "Unsubscribe",
+        "description" : "Unsubscribes current user from a pull request.",
+        "operationId" : "unsubscribe",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "pullRequestId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "204" : {
+            "description" : "update success"
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized, the current user does not have the \"modifyPullRequest\" privilege"
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/pull-requests/{namespace}/{name}/{pullRequestId}/workflow" : {
+      "get" : {
+        "tags" : [ "Workflow Engine" ],
+        "summary" : "Workflow engine result",
+        "description" : "Returns the result of the workflow checks for the given pull request.",
+        "operationId" : "review_get_repository_workflow_result",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "pullRequestId",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "content" : {
+              "application/vnd.scmm-workflowResult+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ResultListDto"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized, the current user does not have the \"repository:readWorkflowConfig\" privilege"
+          },
+          "404" : {
+            "description" : "either repository or pull request not found"
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/pull-requests/{namespace}/{name}/template" : {
+      "get" : {
+        "operationId" : "getPullRequestTemplate",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "source",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "target",
+          "in" : "query",
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "default" : {
+            "description" : "default response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/PullRequestTemplateDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/workflow/rules" : {
+      "get" : {
+        "tags" : [ "Workflow Engine" ],
+        "summary" : "Workflow engine rules",
+        "description" : "Returns available rules for the workflow engine.",
+        "operationId" : "review_get_workflow_rules",
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "content" : {
+              "application/vnd.scmm-workflow+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/HalRepresentation"
+                }
+              }
+            }
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/workflow/config" : {
+      "get" : {
+        "tags" : [ "Workflow Engine" ],
+        "summary" : "Global workflow engine configuration",
+        "description" : "Returns the global workflow engine configuration.",
+        "operationId" : "review_get_global_workflow_engine_config",
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "content" : {
+              "application/vnd.scmm-workflow+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/GlobalEngineConfigDto"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized, the current user does not have the \"readWorkflowEngineConfig\" privilege"
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Workflow Engine" ],
+        "summary" : "Update global workflow engine configuration",
+        "description" : "Modifies the global workflow engine configuration.",
+        "operationId" : "review_put_global_workflow_engine_config",
+        "requestBody" : {
+          "content" : {
+            "application/vnd.scmm-workflow+json;v=2" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/GlobalEngineConfigDto"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "204" : {
+            "description" : "update success"
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized, the current user does not have the \"configurePullRequest\" privilege"
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/workflow/{namespace}/{name}" : {
+      "get" : {
+        "tags" : [ "Workflow Engine" ],
+        "summary" : "Effective workflow engine configuration",
+        "description" : "Returns the effective repository specific workflow engine configuration.",
+        "operationId" : "review_get_effective_repository_workflow_configuration",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/HalRepresentation"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized, the current user does not have the \"repository:readWorkflowConfig\" privilege"
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v2/workflow/{namespace}/{name}/config" : {
+      "get" : {
+        "tags" : [ "Workflow Engine" ],
+        "summary" : "Workflow engine configuration",
+        "description" : "Returns the repository specific workflow engine configuration.",
+        "operationId" : "review_get_repository_workflow_configuration",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "success",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/HalRepresentation"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized, the current user does not have the \"repository:readWorkflowConfig\" privilege"
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "Workflow Engine" ],
+        "summary" : "Update Repository workflow engine configuration",
+        "description" : "Modifies the repository-specific workflow engine configuration.",
+        "operationId" : "review_put_repository_workflow_config",
+        "parameters" : [ {
+          "name" : "namespace",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        }, {
+          "name" : "name",
+          "in" : "path",
+          "required" : true,
+          "schema" : {
+            "type" : "string"
+          }
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/vnd.scmm-workflow+json;v=2" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/RepositoryEngineConfigDto"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "204" : {
+            "description" : "update success"
+          },
+          "401" : {
+            "description" : "not authenticated / invalid credentials"
+          },
+          "403" : {
+            "description" : "not authorized, the current user does not have the \"repository:writeWorkflowConfig\" privilege"
+          },
+          "500" : {
+            "description" : "internal server error",
+            "content" : {
+              "application/vnd.scmm-error+json;v=2" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/ErrorDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "Embedded" : {
+        "type" : "object",
+        "properties" : {
+          "empty" : {
+            "type" : "boolean"
+          }
+        }
+      },
+      "GlobalPullRequestConfigDto" : {
+        "type" : "object",
+        "properties" : {
+          "preventMergeFromAuthor" : {
+            "type" : "boolean"
+          },
+          "restrictBranchWriteAccess" : {
+            "type" : "boolean"
+          },
+          "protectedBranchPatterns" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "branchProtectionBypasses" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ProtectionBypassDto"
+            }
+          },
+          "defaultReviewers" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "disableRepositoryConfiguration" : {
+            "type" : "boolean"
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "_embedded" : {
+            "$ref" : "#/components/schemas/Embedded"
+          }
+        }
+      },
+      "Links" : {
+        "type" : "object",
+        "properties" : {
+          "empty" : {
+            "type" : "boolean"
+          }
+        }
+      },
+      "ProtectionBypassDto" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string"
+          },
+          "group" : {
+            "type" : "boolean"
+          }
+        }
+      },
+      "AdditionalMessageDto" : {
+        "type" : "object",
+        "properties" : {
+          "key" : {
+            "type" : "string"
+          },
+          "message" : {
+            "type" : "string"
+          }
+        }
+      },
+      "ConstraintViolationDto" : {
+        "type" : "object",
+        "properties" : {
+          "path" : {
+            "type" : "string"
+          },
+          "message" : {
+            "type" : "string"
+          }
+        },
+        "xml" : {
+          "name" : "violation"
+        }
+      },
+      "ContextEntry" : {
+        "type" : "object",
+        "properties" : {
+          "type" : {
+            "type" : "string"
+          },
+          "id" : {
+            "type" : "string"
+          }
+        }
+      },
+      "ErrorDto" : {
+        "type" : "object",
+        "properties" : {
+          "transactionId" : {
+            "type" : "string"
+          },
+          "errorCode" : {
+            "type" : "string"
+          },
+          "context" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ContextEntry"
+            }
+          },
+          "message" : {
+            "type" : "string"
+          },
+          "additionalMessages" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/AdditionalMessageDto"
+            }
+          },
+          "violations" : {
+            "type" : "array",
+            "xml" : {
+              "wrapped" : true
+            },
+            "items" : {
+              "$ref" : "#/components/schemas/ConstraintViolationDto"
+            }
+          },
+          "url" : {
+            "type" : "string"
+          }
+        }
+      },
+      "PullRequestConfigDto" : {
+        "type" : "object",
+        "properties" : {
+          "preventMergeFromAuthor" : {
+            "type" : "boolean"
+          },
+          "restrictBranchWriteAccess" : {
+            "type" : "boolean"
+          },
+          "protectedBranchPatterns" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "branchProtectionBypasses" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ProtectionBypassDto"
+            }
+          },
+          "defaultReviewers" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "_embedded" : {
+            "$ref" : "#/components/schemas/Embedded"
+          }
+        }
+      },
+      "MergeCheckResultDto" : {
+        "type" : "object",
+        "properties" : {
+          "hasConflicts" : {
+            "type" : "boolean"
+          },
+          "mergeObstacles" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/MergeObstacle"
+            }
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "_embedded" : {
+            "$ref" : "#/components/schemas/Embedded"
+          }
+        }
+      },
+      "MergeObstacle" : {
+        "type" : "object",
+        "properties" : {
+          "key" : {
+            "type" : "string"
+          },
+          "message" : {
+            "type" : "string"
+          },
+          "overrideable" : {
+            "type" : "boolean"
+          }
+        }
+      },
+      "MergeConflictResultDto" : {
+        "type" : "object",
+        "properties" : {
+          "conflicts" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/SingleMergeConflict"
+            }
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "_embedded" : {
+            "$ref" : "#/components/schemas/Embedded"
+          }
+        }
+      },
+      "SingleMergeConflict" : {
+        "type" : "object",
+        "properties" : {
+          "type" : {
+            "type" : "string",
+            "enum" : [ "BOTH_MODIFIED", "DELETED_BY_THEM", "DELETED_BY_US", "ADDED_BY_BOTH" ]
+          },
+          "path" : {
+            "type" : "string"
+          },
+          "diff" : {
+            "type" : "string"
+          }
+        }
+      },
+      "MergeCommitDto" : {
+        "type" : "object",
+        "properties" : {
+          "commitMessage" : {
+            "type" : "string"
+          },
+          "shouldDeleteSourceBranch" : {
+            "type" : "boolean"
+          },
+          "overrideMessage" : {
+            "type" : "string"
+          }
+        }
+      },
+      "MergeStrategyInfoDto" : {
+        "type" : "object",
+        "properties" : {
+          "commitMessageDisabled" : {
+            "type" : "boolean"
+          },
+          "defaultCommitMessage" : {
+            "type" : "string"
+          },
+          "commitMessageHint" : {
+            "type" : "string"
+          },
+          "commitAuthor" : {
+            "type" : "string"
+          }
+        }
+      },
+      "PullRequestCheckResultDto" : {
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "type" : "string",
+            "enum" : [ "PR_VALID", "PR_ALREADY_EXISTS", "BRANCHES_NOT_DIFFER" ]
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "_embedded" : {
+            "$ref" : "#/components/schemas/Embedded"
+          }
+        }
+      },
+      "DisplayedUserDto" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "displayName" : {
+            "type" : "string"
+          },
+          "mail" : {
+            "type" : "string"
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "_embedded" : {
+            "$ref" : "#/components/schemas/Embedded"
+          }
+        }
+      },
+      "PullRequestDto" : {
+        "required" : [ "source", "status", "target", "title" ],
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "author" : {
+            "$ref" : "#/components/schemas/DisplayedUserDto"
+          },
+          "reviser" : {
+            "$ref" : "#/components/schemas/DisplayedUserDto"
+          },
+          "closeDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "source" : {
+            "type" : "string"
+          },
+          "target" : {
+            "type" : "string"
+          },
+          "title" : {
+            "type" : "string"
+          },
+          "description" : {
+            "type" : "string"
+          },
+          "creationDate" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "lastModified" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "status" : {
+            "type" : "string",
+            "enum" : [ "DRAFT", "OPEN", "MERGED", "REJECTED" ]
+          },
+          "reviewer" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ReviewerDto"
+            }
+          },
+          "tasks" : {
+            "$ref" : "#/components/schemas/TasksDto"
+          },
+          "sourceRevision" : {
+            "type" : "string"
+          },
+          "targetRevision" : {
+            "type" : "string"
+          },
+          "markedAsReviewed" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "emergencyMerged" : {
+            "type" : "boolean"
+          },
+          "ignoredMergeObstacles" : {
+            "type" : "array",
+            "items" : {
+              "type" : "string"
+            }
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "_embedded" : {
+            "$ref" : "#/components/schemas/Embedded"
+          }
+        }
+      },
+      "ReviewerDto" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "displayName" : {
+            "type" : "string"
+          },
+          "mail" : {
+            "type" : "string"
+          },
+          "approved" : {
+            "type" : "boolean"
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "_embedded" : {
+            "$ref" : "#/components/schemas/Embedded"
+          }
+        }
+      },
+      "TasksDto" : {
+        "type" : "object",
+        "properties" : {
+          "todo" : {
+            "type" : "integer",
+            "format" : "int64"
+          },
+          "done" : {
+            "type" : "integer",
+            "format" : "int64"
+          }
+        }
+      },
+      "HalRepresentation" : {
+        "type" : "object",
+        "properties" : {
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "_embedded" : {
+            "$ref" : "#/components/schemas/Embedded"
+          }
+        }
+      },
+      "CommentDto" : {
+        "type" : "object",
+        "properties" : {
+          "comment" : {
+            "maxLength" : 2147483647,
+            "minLength" : 1,
+            "type" : "string"
+          },
+          "id" : {
+            "type" : "string"
+          },
+          "author" : {
+            "$ref" : "#/components/schemas/DisplayedUserDto"
+          },
+          "mentions" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/DisplayedUserDto"
+            }
+          },
+          "date" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "location" : {
+            "$ref" : "#/components/schemas/LocationDto"
+          },
+          "systemComment" : {
+            "type" : "boolean"
+          },
+          "outdated" : {
+            "type" : "boolean"
+          },
+          "emergencyMerged" : {
+            "type" : "boolean"
+          },
+          "type" : {
+            "type" : "string"
+          },
+          "context" : {
+            "$ref" : "#/components/schemas/InlineContextDto"
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "_embedded" : {
+            "$ref" : "#/components/schemas/Embedded"
+          }
+        }
+      },
+      "ContextLineDto" : {
+        "type" : "object",
+        "properties" : {
+          "oldLineNumber" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "newLineNumber" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "content" : {
+            "type" : "string"
+          }
+        }
+      },
+      "InlineContextDto" : {
+        "type" : "object",
+        "properties" : {
+          "lines" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ContextLineDto"
+            }
+          }
+        }
+      },
+      "LocationDto" : {
+        "type" : "object",
+        "properties" : {
+          "file" : {
+            "maxLength" : 2147483647,
+            "minLength" : 1,
+            "type" : "string"
+          },
+          "hunk" : {
+            "maxLength" : 2147483647,
+            "minLength" : 1,
+            "type" : "string"
+          },
+          "oldLineNumber" : {
+            "type" : "integer",
+            "format" : "int32"
+          },
+          "newLineNumber" : {
+            "type" : "integer",
+            "format" : "int32"
+          }
+        }
+      },
+      "ExecutedTransitionDto" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "string"
+          },
+          "transition" : {
+            "type" : "string"
+          },
+          "date" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "user" : {
+            "$ref" : "#/components/schemas/DisplayedUserDto"
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "_embedded" : {
+            "$ref" : "#/components/schemas/Embedded"
+          }
+        }
+      },
+      "ReplyDto" : {
+        "type" : "object",
+        "properties" : {
+          "comment" : {
+            "maxLength" : 2147483647,
+            "minLength" : 1,
+            "type" : "string"
+          },
+          "id" : {
+            "type" : "string"
+          },
+          "author" : {
+            "$ref" : "#/components/schemas/DisplayedUserDto"
+          },
+          "mentions" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/DisplayedUserDto"
+            }
+          },
+          "date" : {
+            "type" : "string",
+            "format" : "date-time"
+          },
+          "systemReply" : {
+            "type" : "boolean"
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "_embedded" : {
+            "$ref" : "#/components/schemas/Embedded"
+          }
+        }
+      },
+      "TransitionDto" : {
+        "required" : [ "name" ],
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string"
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "_embedded" : {
+            "$ref" : "#/components/schemas/Embedded"
+          }
+        }
+      },
+      "ResultDto" : {
+        "type" : "object",
+        "properties" : {
+          "rule" : {
+            "type" : "string"
+          },
+          "failed" : {
+            "type" : "boolean"
+          },
+          "context" : {
+            "type" : "object"
+          }
+        }
+      },
+      "ResultListDto" : {
+        "type" : "object",
+        "properties" : {
+          "results" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/ResultDto"
+            }
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "_embedded" : {
+            "$ref" : "#/components/schemas/Embedded"
+          }
+        }
+      },
+      "PullRequestTemplateDto" : {
+        "type" : "object",
+        "properties" : {
+          "title" : {
+            "type" : "string"
+          },
+          "description" : {
+            "type" : "string"
+          },
+          "defaultReviewers" : {
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/DisplayedUserDto"
+            }
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "_embedded" : {
+            "$ref" : "#/components/schemas/Embedded"
+          }
+        }
+      },
+      "AvailableRulesDto" : {
+        "type" : "object",
+        "properties" : {
+          "rules" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/RuleDto"
+            }
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "_embedded" : {
+            "$ref" : "#/components/schemas/Embedded"
+          }
+        }
+      },
+      "RuleDto" : {
+        "type" : "object",
+        "properties" : {
+          "name" : {
+            "type" : "string"
+          },
+          "applicableMultipleTimes" : {
+            "type" : "boolean"
+          }
+        }
+      },
+      "AppliedRuleDto" : {
+        "type" : "object",
+        "properties" : {
+          "rule" : {
+            "type" : "string"
+          },
+          "configuration" : {
+            "$ref" : "#/components/schemas/JsonNode"
+          }
+        }
+      },
+      "GlobalEngineConfigDto" : {
+        "type" : "object",
+        "properties" : {
+          "rules" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/AppliedRuleDto"
+            }
+          },
+          "enabled" : {
+            "type" : "boolean"
+          },
+          "disableRepositoryConfiguration" : {
+            "type" : "boolean"
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "_embedded" : {
+            "$ref" : "#/components/schemas/Embedded"
+          }
+        }
+      },
+      "JsonNode" : {
+        "type" : "object"
+      },
+      "RepositoryEngineConfigDto" : {
+        "type" : "object",
+        "properties" : {
+          "rules" : {
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/AppliedRuleDto"
+            }
+          },
+          "enabled" : {
+            "type" : "boolean"
+          },
+          "_links" : {
+            "$ref" : "#/components/schemas/Links"
+          },
+          "_embedded" : {
+            "$ref" : "#/components/schemas/Embedded"
+          }
+        }
+      }
+    }
+  }
+}
