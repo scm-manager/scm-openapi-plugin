@@ -29,7 +29,7 @@ const RestDocumentationLink: FC<Props> = ({ links, me }) => {
   if (links?.openapi && me) {
     return (
       <li>
-        <Link to={"/openapi"}>{t("scm-openapi-plugin.restDocumentation")}</Link>
+        <Link to={"/openapi"}>{t("scm-openapi-plugin.navLink")}</Link>
       </li>
     );
   }

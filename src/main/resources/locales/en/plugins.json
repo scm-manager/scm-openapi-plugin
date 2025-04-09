@@ -1,7 +1,6 @@
 {
   "scm-openapi-plugin": {
-    "pageTitle": "SCM-Manager REST-API",
-    "restDocumentation": "REST-API",
+    "navLink": "REST-API",
     "error": {
       "title": "OpenAPI",
       "subtitle": "OpenAPI specification could not be loaded."
