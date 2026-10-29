@@ -15,17 +15,17 @@
  */
 
 import React, { Suspense } from "react";
-import { Route } from "react-router-dom";
-import { Loading } from "@scm-manager/ui-components";
+import { Loading } from "@scm-manager/ui-core";
 
 const LoadingSwaggerUI = React.lazy(() => import("./SwaggerUI"));
 
 const SwaggerUIRoute = () => (
-  <Route path="/openapi">
-    <Suspense fallback={<Loading />}>
-      <LoadingSwaggerUI />
-    </Suspense>
-  </Route>
+ {
+      path: "openapi",
+      element: <Suspense fallback={<Loading />}>
+        <LoadingSwaggerUI />
+      </Suspense>,
+    }
 );
 
 export default SwaggerUIRoute;

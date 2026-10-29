@@ -19,8 +19,8 @@ import { useTranslation } from "react-i18next";
 import SwaggerUIReact from "swagger-ui-react";
 import "swagger-ui-react/swagger-ui.css";
 import styled from "styled-components";
-import { apiClient, ErrorPage, Loading } from "@scm-manager/ui-components";
-import { useDocumentTitle } from "@scm-manager/ui-core";
+import { apiClient, ErrorPage } from "@scm-manager/ui-components";
+import { Loading, useDocumentTitle } from "@scm-manager/ui-core";
 import "./swaggerUIColors.css";
 
 const SwaggerUIContainer = styled.div`

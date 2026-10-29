@@ -22,7 +22,7 @@ dependencies {
 }
 
 scmPlugin {
-  scmVersion = "3.7.0"
+  scmVersion = "4.0.0-SNAPSHOT"
 
   displayName = "OpenAPI"
   description = "OpenAPI-spec and SwaggerUI for SCM-Manager"
@@ -34,5 +34,12 @@ scmPlugin {
       "com.cloudogu.scm"
     ]
   }
-
+  sonarqube {
+    properties {
+      if (System.getenv('BRANCH_NAME')) {
+        property "sonar.branch.name", System.getenv('BRANCH_NAME')
+      }
+    }
+  }
 }
+
