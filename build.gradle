@@ -34,7 +34,7 @@ scmPlugin {
       "com.cloudogu.scm"
     ]
   }
-  sonarqube {
+  sonar {
     properties {
       if (System.getenv('BRANCH_NAME')) {
         property "sonar.branch.name", System.getenv('BRANCH_NAME')
